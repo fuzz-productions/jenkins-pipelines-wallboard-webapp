@@ -23,7 +23,14 @@ class App extends Component {
         //     username: process.env.REACT_APP_USERNAME,
         //     password: process.env.REACT_APP_PASSWORD
         //   }}
-        axios.get(path)
+        axios({
+            method: 'get', 
+            url: path,
+            auth: {
+              "username": process.env.REACT_APP_USERNAME,
+              "password": process.env.REACT_APP_PASSWORD
+            },
+          })
           .then(res => {
             let jobs = res.data.jobs;
             jobs = jobs.sort(function(a, b) {
