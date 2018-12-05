@@ -27,7 +27,7 @@ export default class ProjectCell extends Component {
   render() {
   	const { item } = this.props;
 
-  	return <Card title={item.projectName} style={{minHeight: "240px"}} >
+  	return <Card title={item.projectName} style={{minHeight: "290px"}} >
   			
   			<List  
           

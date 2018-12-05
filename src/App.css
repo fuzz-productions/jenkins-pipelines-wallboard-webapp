@@ -26,7 +26,7 @@
 
 .ant-card-head-title {
      padding: 4px 0; 
-     font-size: calc(14px + 2vmin);
+     font-size: calc(42px);
      font-weight: 600;
 }
 
@@ -47,29 +47,29 @@
     padding-left: 4px;
     text-align: left;
     background-color: #ccdbe7;
-    font-size: calc(15px + 2vmin);
+    font-size: calc(30px);
  }
 .unstable {
     padding-left: 4px;
     text-align: left;
     background-color: #a8ac34;
-    font-size: calc(15px + 2vmin);
+    font-size: calc(30px);
  }
 .failure {
   padding-left: 4px;
     text-align: left;
     background-color: #c82c34;
-    font-size: calc(15px + 2vmin);
+    font-size: calc(30px);
  }
 .aborted {
     padding-left: 4px;
     text-align: left;
     background-color: #a8ac74;
-    font-size: calc(15px + 2vmin);
+    font-size: calc(30px);
  }
 .null {
   padding-left: 4px;
     text-align: left;
     background-color: #fff;
-    font-size: calc(15px + 2vmin);
+    font-size: calc(30px);
 }

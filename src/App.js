@@ -69,7 +69,7 @@ class App extends Component {
                     });
 
 
-                    //jobs = jobs.slice(0, Math.min(jobs.length, 5))
+                    jobs = jobs.slice(0, Math.min(jobs.length, 18))
 
                     //console.log(jobs);
                     job.jobs = jobs;
@@ -119,7 +119,7 @@ class App extends Component {
         <br/>
 
           <List 
-            grid={{ gutter: 16, column: 4, offset: 5 }}
+            grid={{ gutter: 16, column: 5, offset: 5 }}
             dataSource={projectList}
             renderItem={item => (
                <List.Item><ProjectCell item={item} /></List.Item>
