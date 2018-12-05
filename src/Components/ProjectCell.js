@@ -27,14 +27,22 @@ export default class ProjectCell extends Component {
   render() {
   	const { item } = this.props;
 
-  	return <Card title={item.projectName}>
+  	return <Card title={item.projectName} style={{minHeight: "240px"}} >
   			
   			<List  
           
   				dataSource={item.jobs}
           renderItem={item => (
-          		<li><span>{item.name}</span> -  <span>{item.color}</span></li>
-            )}
+          		<li className={item.lastBuild.result.toLowerCase()} ><span>{item.name}</span> 
+
+             { (() => { 
+                if( item.lastBuild.number > 1 ) {
+                  return <span> #{item.lastBuild.number}</span>
+                }
+              })() }
+              
+              </li>
+          )}
         />
   			</Card>
   }

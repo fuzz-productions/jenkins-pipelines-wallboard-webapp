@@ -21,10 +21,55 @@
 .ant-card-body {
     padding: 8px;
     zoom: 1;
+    !font-size: calc(20px + 2vmin);
 }
 
 .ant-card-head-title {
      padding: 4px 0; 
+     font-size: calc(14px + 2vmin);
+     font-weight: 600;
 }
 
 .ant-card-head{ min-height: 10px; }
+
+.blue { 
+    background-color: #582ca4;
+ }
+ .yellow {
+    background-color: #a8ac34;
+ }
+ .red {
+    background-color: #c82c34;
+ }
+
+
+.success { 
+    padding-left: 4px;
+    text-align: left;
+    background-color: #ccdbe7;
+    font-size: calc(15px + 2vmin);
+ }
+.unstable {
+    padding-left: 4px;
+    text-align: left;
+    background-color: #a8ac34;
+    font-size: calc(15px + 2vmin);
+ }
+.failure {
+  padding-left: 4px;
+    text-align: left;
+    background-color: #c82c34;
+    font-size: calc(15px + 2vmin);
+ }
+.aborted {
+    padding-left: 4px;
+    text-align: left;
+    background-color: #a8ac74;
+    font-size: calc(15px + 2vmin);
+ }
+.null {
+  padding-left: 4px;
+    text-align: left;
+    background-color: #fff;
+    font-size: calc(15px + 2vmin);
+}

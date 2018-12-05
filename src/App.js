@@ -10,13 +10,15 @@ import './App.css';
 
 class App extends Component {
   state = {
-    projects: [],
+    isBuilding: false,
+    projects: {"loading": {"name": "loading", "jobs":[]}},
   }
 
     componentDidMount() {
         dotenv.config()
 
-        this.loadProjects();
+        setInterval( this.loadProjects, 30000)
+       this.loadProjects()
 
     }
     
@@ -30,12 +32,12 @@ class App extends Component {
             jobs = jobs.sort(function(a, b) {
                 return a.name < b.name
             });
-             jobs = jobs.filter( function (a) {
-                      if ( a.name === "koala-kit-ios" || a.name === "koala-pay-ios" || a.name === "tulerie-ios" || a.name === "coffers-ios" ) {
-                          return false;
-                      }
-                      return true;
-                    })
+            // jobs = jobs.filter( function (a) {
+            //     if ( a.name === "koala-kit-ios" || a.name === "koala-pay-ios" || a.name === "tulerie-ios" || a.name === "coffers-ios" ) {
+            //         return false;
+            //     }
+            //     return true;
+            //   })
             //console.log(jobs);
 
             var arr = []
@@ -43,12 +45,12 @@ class App extends Component {
               var job = {"projectName": obj.name, "jobs": [], "id": obj.name}
 
               arr.push(
-                axios.get(obj.url + "api/json?tree=jobs[name,url,color,lastBuild[number,duration,building,result]]", { "auth": {
+                axios.get(obj.url + "api/json?tree=jobs[name,url,color,lastBuild[number,duration,building,result,timestamp]]", { "auth": {
                   username: process.env.REACT_APP_USERNAME,
                   password: process.env.REACT_APP_PASSWORD
                 }})
                   .then(res => { 
-                    console.log(res);
+                    //console.log(res);
                     var jobs = res.data.jobs;
                     jobs = jobs.filter( function (a) {
                       if ( a.color === "notbuilt" || a.color === "notbuilt_anime" || a.color === "blue_anime" ) {
@@ -56,19 +58,27 @@ class App extends Component {
                       }
                       return true;
                     })
-                    console.log(jobs);
+                    //console.log(jobs);
                     jobs = jobs.sort(function(a, b) {
-                        if (a.name === "dev" || a.name === "develop" || a.name === "master" ) { return -1 }
-                        if (b.name === "dev" || b.name === "develop" || b.name === "master") { return 1 }
-                        if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+                        if (a.name === "dev" || a.name === "develop" || a.name ===  "development" || a.name === "master" ) { return -1 }
+                        if (b.name === "dev" || b.name === "develop" || b.name ===  "development" || b.name === "master") { return 1 }
+                        if ( a.lastBuild.timestamp > b.lastBuild.timestamp){
                           return -1
                         }
                         return 1
                     });
-                    console.log(jobs);
-                    job['jobs'] = jobs;
-                    var list = this.state.projects
-                    list.push(job)
+
+
+                    //jobs = jobs.slice(0, Math.min(jobs.length, 5))
+
+                    //console.log(jobs);
+                    job.jobs = jobs;
+
+
+                    var list = this.state.projects;
+                    delete(list["loading"]);
+                    list[job.projectName] = job
+                    console.log(list);
                     this.setState({ "projects": list });
 
                   })
@@ -87,20 +97,30 @@ class App extends Component {
   render() {
    
     let {projects} = this.state
-    projects = projects.sort(function(a, b) {
-        console.log(a.jobs.length);
-          if( a['jobs'].length < b['jobs'].length ){
+    var projectList = [];
+     console.log(projects);
+
+    for(var key in projects) {
+        var value = projects[key];
+        projectList.push(value)
+    }
+    console.log(projectList);
+    projectList = projectList.sort(function(a, b) {
+          console.log(a.jobs.length);
+          if( a.jobs.length > b.jobs.length ){
             return -1
           }
           return 1
     });
+
     return (
       <div className="App">
         <header className="App-header"> Fuzz {process.env.REACT_APP_GROUPNAME}
+        <br/>
 
           <List 
-            grid={{ gutter: 16, column: 3, offset: 5 }}
-            dataSource={projects}
+            grid={{ gutter: 16, column: 4, offset: 5 }}
+            dataSource={projectList}
             renderItem={item => (
                <List.Item><ProjectCell item={item} /></List.Item>
             )}
