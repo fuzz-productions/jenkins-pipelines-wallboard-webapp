@@ -61,7 +61,7 @@ class App extends Component {
 
         //   })
 
-        axios.get("https://jenkins.fuzzhq.com/job/ios-projects/api/json", { "auth": {
+        axios.get("https://jenkins.fuzzhq.com/job/" + process.env.REACT_APP_GROUP + "/api/json", { "auth": {
              username: process.env.REACT_APP_USERNAME,
              password: process.env.REACT_APP_PASSWORD
            }})
@@ -74,23 +74,28 @@ class App extends Component {
 
             var arr = []
             const projects = jobs.map( (obj) => {
-              let job = {"projectName": obj.name, "jobs": [], "id": obj.name}
+              var job = {"projectName": obj.name, "jobs": [], "id": obj.name}
 
               arr.push(
                 axios.get(obj.url + "api/json", { "auth": {
-             username: process.env.REACT_APP_USERNAME,
-             password: process.env.REACT_APP_PASSWORD
-           }})
-                //axios.get("data/totr.json")
+                  username: process.env.REACT_APP_USERNAME,
+                  password: process.env.REACT_APP_PASSWORD
+                }})
                   .then(res => { 
                     let jobs = res.data.jobs;
+                    jobs = jobs.filter( function (a) {
+                      if ( a.color === "notbuilt" || a.color === "notbuilt_anime" ) {
+                          return false;
+                      }
+                      return true;
+                    })
                     jobs = jobs.sort(function(a, b) {
                        if (a.name === "dev") { return true }
                         if (b.name === "dev") { return false }
                         return a.name < b.name
                     });
                     //console.log(jobs);
-                    let job = {"projectName": obj.name, "jobs": jobs, "id": obj.name}
+                    job['jobs'] = jobs;
                     var list = this.state.projects
                     list.push(job)
                     this.setState({ "projects": list });
@@ -104,16 +109,16 @@ class App extends Component {
               console.log(res)
             });
             
-
           })
-
     }
 
 
   render() {
    
-    const {projects} = this.state
-
+    let {projects} = this.state
+    projects = projects.sort(function(a, b) {
+                        return a.name < b.name
+                    });
     return (
       <div className="App">
         <header className="App-header">   Fuzz {process.env.REACT_APP_GROUPNAME}
