@@ -17,3 +17,12 @@
 .App-link {
   color: #61dafb;
 }
+
+.ant-card-body {
+    padding: 8px;
+    zoom: 1;
+}
+
+.ant-card-head-title {
+     padding: 4px 0; 
+}
