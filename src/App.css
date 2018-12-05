@@ -21,7 +21,7 @@
 .ant-card-body {
     padding: 8px;
     zoom: 1;
-    !font-size: calc(20px + 2vmin);
+    font-size: calc(20px + 2vmin);
 }
 
 .ant-card-head-title {
@@ -32,16 +32,16 @@
 
 .ant-card-head{ min-height: 10px; }
 
-.blue { 
-    background-color: #582ca4;
- }
- .yellow {
-    background-color: #a8ac34;
- }
- .red {
-    background-color: #c82c34;
- }
+.ant-card {
+    background-color: #FFFFFF55;
+}
+.ant-card-head {
+    background-color: #FFFFFF;
+}
 
+.ant-list * {
+  outline-color: #666666;
+}
 
 .success { 
     padding-left: 4px;
