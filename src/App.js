@@ -17,51 +17,54 @@ class App extends Component {
     componentDidMount() {
         dotenv.config()
 
-        let path = "https://jenkins.fuzzhq.com/job/ios-projects/job/m360-ios/api/json";
-        //path = "data/m360.json";
-        // , { "auth": {
-        //     username: process.env.REACT_APP_USERNAME,
-        //     password: process.env.REACT_APP_PASSWORD
-        //   }}
-        axios({
-            method: 'get', 
-            url: path,
-            auth: {
-              "username": process.env.REACT_APP_USERNAME,
-              "password": process.env.REACT_APP_PASSWORD
-            },
-          })
-          .then(res => {
-            let jobs = res.data.jobs;
-            jobs = jobs.sort(function(a, b) {
-                if (a.name === "dev") { return true }
-                if (b.name === "dev") { return false }
-                return a.name < b.name
-            });
-            console.log(jobs);
+        // let path = "https://jenkins.fuzzhq.com/job/ios-projects/job/m360-ios/api/json";
+        // //path = "data/m360.json";
+        // // , { "auth": {
+        // //     username: process.env.REACT_APP_USERNAME,
+        // //     password: process.env.REACT_APP_PASSWORD
+        // //   }}
+        // axios({
+        //     method: 'get', 
+        //     url: path,
+        //     auth: {
+        //       "username": process.env.REACT_APP_USERNAME,
+        //       "password": process.env.REACT_APP_PASSWORD
+        //     },
+        //   })
+        //   .then(res => {
+        //     let jobs = res.data.jobs;
+        //     jobs = jobs.sort(function(a, b) {
+        //         if (a.name === "dev") { return true }
+        //         if (b.name === "dev") { return false }
+        //         return a.name < b.name
+        //     });
+        //     console.log(jobs);
 
-            let job = {"projectName": res.data.name, "jobs": jobs, "id": res.data.fullName}
-            this.setState({ "projects": [job] });
+        //     let job = {"projectName": res.data.name, "jobs": jobs, "id": res.data.fullName}
+        //     this.setState({ "projects": [job] });
 
-          })
+        //   })
 
-          axios.get("data/totr.json")
-            .then(res => {
-            let jobs = res.data.jobs;
-            jobs = jobs.sort(function(a, b) {
-               if (a.name === "dev") { return true }
-                if (b.name === "dev") { return false }
-                return a.name < b.name
-            });
-            console.log(jobs);
+        //   axios.get("data/totr.json")
+        //     .then(res => {
+        //     let jobs = res.data.jobs;
+        //     jobs = jobs.sort(function(a, b) {
+        //        if (a.name === "dev") { return true }
+        //         if (b.name === "dev") { return false }
+        //         return a.name < b.name
+        //     });
+        //     console.log(jobs);
 
-            let job = {"projectName": res.data.name, "jobs": jobs}
-            var list = this.state.projects
-            this.setState({ "projects": list });
+        //     let job = {"projectName": res.data.name, "jobs": jobs}
+        //     var list = this.state.projects
+        //     this.setState({ "projects": list });
 
-          })
+        //   })
 
-        axios.get("data/ios-projects.json")
+        axios.get("https://jenkins.fuzzhq.com/job/ios-projects/api/json", { "auth": {
+             username: process.env.REACT_APP_USERNAME,
+             password: process.env.REACT_APP_PASSWORD
+           }})
           .then(res => {
             let jobs = res.data.jobs;
             jobs = jobs.sort(function(a, b) {
@@ -74,8 +77,11 @@ class App extends Component {
               let job = {"projectName": obj.name, "jobs": [], "id": obj.name}
 
               arr.push(
-                //axios.get(obj.url + "api/json")
-                axios.get("data/totr.json")
+                axios.get(obj.url + "api/json", { "auth": {
+             username: process.env.REACT_APP_USERNAME,
+             password: process.env.REACT_APP_PASSWORD
+           }})
+                //axios.get("data/totr.json")
                   .then(res => { 
                     let jobs = res.data.jobs;
                     jobs = jobs.sort(function(a, b) {
