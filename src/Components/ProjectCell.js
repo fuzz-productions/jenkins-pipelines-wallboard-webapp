@@ -32,9 +32,15 @@ export default class ProjectCell extends Component {
   			<List  
           
   				dataSource={item.jobs}
-          renderItem={item => (
-          		<li className={item.lastBuild.result.toLowerCase()} ><span>{item.name}</span> 
-
+          renderItem={item => {
+            var result = item.lastBuild.result
+            if (result !== null ){
+              result = result.toLowerCase()
+            } else {
+              result = "null"
+            }
+            return <li className={result} ><span>{item.name}</span> 
+              
              { (() => { 
                 if( item.lastBuild.number > 1 ) {
                   return <span> #{item.lastBuild.number}</span>
@@ -42,7 +48,7 @@ export default class ProjectCell extends Component {
               })() }
               
               </li>
-          )}
+          }}
         />
   			</Card>
   }
