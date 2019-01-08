@@ -19,9 +19,16 @@ export function jobReducer(state: JobsState = initialJobsState, action: JobActio
     case JobActionTypes.LoadJobsSucceeded:
       let { jobs } = action
       let projectList = []
-      console.log(jobs)
       for (const key in jobs) {
         const value = jobs[key]
+        value.jobs.sort((a, b) => {
+          const timeA = a.lastBuild && a.lastBuild.timestamp || 0
+          const timeB = b.lastBuild && b.lastBuild.timestamp || 0
+          if (timeA > timeB) {
+            return -1
+          }
+          return 1
+        })
         projectList.push(value)
       }
       projectList = projectList.sort(function (a, b) {

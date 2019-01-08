@@ -25,7 +25,7 @@ export class JobService {
     'nextBuildNumber,inQueue,name,url,description,displayName,buildable'
 
   newJobsParamsPath = (): string =>
-    `displayName,name,url,jobs%5B${this.jobParamsPath()},jobs%5B${this.jobActionsPath()},name,displayName,url,buildable,${this.buildsPath('lastCompletedBuild')}%5D%5D`
+    `displayName,name,url,jobs%5B${this.jobParamsPath()},jobs%5B${this.jobActionsPath()},name,displayName,url,buildable,${this.buildsPath('lastBuild')}%5D%5D`
 
 
   fetchJobs = async (jobFolder: string): Promise<Array<Job>> => {
