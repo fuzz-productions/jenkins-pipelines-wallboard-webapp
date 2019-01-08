@@ -17,4 +17,5 @@ export interface BuildInfo {
   displayName: string
   description: string
   building: boolean
+  number: number
 }

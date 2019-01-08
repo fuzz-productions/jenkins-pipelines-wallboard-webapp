@@ -3,14 +3,14 @@ import 'antd/dist/antd.css'
 import dotenv from 'dotenv'
 import React, { PureComponent } from 'react'
 import './style.scss'
-import ProjectCell from './../../components/ProjectCell'
+import ProjectCell from '../../components/ProjectCell'
 import { jobsHawk } from '../../redux/jobs/hawk'
 import { LoadingModel } from '../../redux/loading.model'
-import { Job } from '../../model'
+import { FolderJob } from '../../model'
 
 interface AppProps {
   loadJobs: Function
-  jobModel: LoadingModel<Array<Job>>
+  jobModel: LoadingModel<Array<FolderJob>>
 }
 
 class AppPage extends PureComponent<AppProps> {
@@ -102,6 +102,7 @@ class AppPage extends PureComponent<AppProps> {
   }*/
 
   render() {
+    console.log('props', this.props.jobModel)
     return (
       <div className="App">
         <header className="App-header"> Fuzz {process.env.REACT_APP_GROUPNAME}
@@ -114,7 +115,7 @@ class AppPage extends PureComponent<AppProps> {
               offset: 5,
             }}
             dataSource={this.props.jobModel.success}
-            renderItem={(item: Job) => (
+            renderItem={(item: FolderJob) => (
               <List.Item><ProjectCell item={item} /></List.Item>
             )}
           />
