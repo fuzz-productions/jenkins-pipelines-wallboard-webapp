@@ -26,8 +26,8 @@
 
 .ant-card-head-title {
      padding: 4px 0; 
-     font-size: calc(42px);
-     font-weight: 600;
+     font-size: 36px;
+     font-weight: 300;
 }
 
 .ant-card-head{ min-height: 10px; }
