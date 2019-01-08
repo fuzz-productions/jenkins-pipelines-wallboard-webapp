@@ -19,3 +19,12 @@ export interface BuildInfo {
   building: boolean
   number: number
 }
+
+
+export const jobIsRoot = (job: Job): boolean => {
+  const names = ['dev',
+    'develop',
+    'development',
+    'master']
+  return !!names.find((name) => name == job.name)
+}
