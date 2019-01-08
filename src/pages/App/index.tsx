@@ -3,10 +3,10 @@ import 'antd/dist/antd.css'
 import axios from 'axios'
 import dotenv from 'dotenv'
 import React, { Component } from 'react'
-import './App.css'
-import ProjectCell from './components/ProjectCell'
+import './style.scss'
+import ProjectCell from './../../components/ProjectCell'
 
-class App extends Component {
+class Index extends Component {
   state = {
     isBuilding: false,
     projects: {
@@ -147,4 +147,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default Index
