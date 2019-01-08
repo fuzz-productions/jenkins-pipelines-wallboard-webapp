@@ -102,7 +102,6 @@ class AppPage extends PureComponent<AppProps> {
   }*/
 
   render() {
-
     return (
       <div className="App">
         <header className="App-header"> Fuzz {process.env.REACT_APP_GROUPNAME}
