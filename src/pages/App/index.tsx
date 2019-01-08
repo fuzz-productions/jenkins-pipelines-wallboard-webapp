@@ -1,31 +1,26 @@
 import { List } from 'antd'
 import 'antd/dist/antd.css'
-import axios from 'axios'
 import dotenv from 'dotenv'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import './style.scss'
 import ProjectCell from './../../components/ProjectCell'
+import { jobsHawk } from '../../redux/jobs/hawk'
+import { LoadingModel } from '../../redux/loading.model'
+import { Job } from '../../model'
 
-class Index extends Component {
-  state = {
-    isBuilding: false,
-    projects: {
-      'loading': {
-        'name': 'loading',
-        'jobs': [],
-      },
-    },
-  }
+interface AppProps {
+  loadJobs: Function
+  jobModel: LoadingModel<Array<Job>>
+}
+
+class AppPage extends PureComponent<AppProps> {
 
   componentDidMount() {
     dotenv.config()
-
-    setInterval(this.loadProjects, 30000)
-    this.loadProjects()
-
+    this.props.loadJobs()
   }
 
-  loadProjects = () => {
+  /*loadProjects = () => {
     axios.get('https://jenkins.fuzzhq.com/job/' + process.env.REACT_APP_GROUP + '/api/json', {
       'auth': {
         username: process.env.REACT_APP_USERNAME,
@@ -104,26 +99,9 @@ class Index extends Component {
         })
 
       })
-  }
+  }*/
 
   render() {
-
-    let { projects } = this.state
-    var projectList = []
-    console.log(projects)
-
-    for (var key in projects) {
-      var value = projects[key]
-      projectList.push(value)
-    }
-    console.log(projectList)
-    projectList = projectList.sort(function (a, b) {
-      console.log(a.jobs.length)
-      if (a.jobs.length > b.jobs.length) {
-        return -1
-      }
-      return 1
-    })
 
     return (
       <div className="App">
@@ -136,8 +114,8 @@ class Index extends Component {
               column: 4,
               offset: 5,
             }}
-            dataSource={projectList}
-            renderItem={item => (
+            dataSource={this.props.jobModel.success}
+            renderItem={(item: Job) => (
               <List.Item><ProjectCell item={item} /></List.Item>
             )}
           />
@@ -147,4 +125,4 @@ class Index extends Component {
   }
 }
 
-export default Index
+export default jobsHawk(AppPage)
