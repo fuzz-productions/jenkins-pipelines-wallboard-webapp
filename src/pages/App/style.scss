@@ -19,57 +19,29 @@
 }
 
 .ant-card-body {
-    padding: 8px;
-    zoom: 1;
-    font-size: calc(20px + 2vmin);
+  padding: 8px;
+  zoom: 1;
+  font-size: calc(20px + 2vmin);
 }
 
 .ant-card-head-title {
-     padding: 4px 0;
-     font-size: 36px;
-     font-weight: 300;
+  padding: 4px 0;
+  font-size: 36px;
+  font-weight: 300;
 }
 
-.ant-card-head{ min-height: 10px; }
+.ant-card-head {
+  min-height: 10px;
+}
 
 .ant-card {
-    background-color: #FFFFFF55;
+  background-color: #FFFFFF55;
 }
+
 .ant-card-head {
-    background-color: #FFFFFF;
+  background-color: #FFFFFF;
 }
 
 .ant-list * {
   outline-color: #666666;
-}
-
-.success {
-    padding-left: 4px;
-    text-align: left;
-    background-color: #4CAF50;
-    font-size: calc(30px);
- }
-.unstable {
-    padding-left: 4px;
-    text-align: left;
-    background-color: #FFEB3B;
-    font-size: calc(30px);
- }
-.failure {
-  padding-left: 4px;
-    text-align: left;
-    background-color: #f43a24;
-    font-size: calc(30px);
- }
-.aborted {
-    padding-left: 4px;
-    text-align: left;
-    background-color: #9E9E9E;
-    font-size: calc(30px);
- }
-.null {
-  padding-left: 4px;
-    text-align: left;
-    background-color: #69F0AE;
-    font-size: calc(30px);
 }

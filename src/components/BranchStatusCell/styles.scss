@@ -1,0 +1,32 @@
+@import '../../styles/bootstrap';
+
+.success {
+  padding-left: 4px;
+  text-align: left;
+  background-color: $success;
+  font-size: calc(30px);
+}
+.unstable {
+  padding-left: 4px;
+  text-align: left;
+  background-color: $unstable;
+  font-size: calc(30px);
+}
+.failure {
+  padding-left: 4px;
+  text-align: left;
+  background-color: $failure;
+  font-size: calc(30px);
+}
+.aborted {
+  padding-left: 4px;
+  text-align: left;
+  background-color: $aborted;
+  font-size: calc(30px);
+}
+.null {
+  padding-left: 4px;
+  text-align: left;
+  background-color: $unknown;
+  font-size: calc(30px);
+}

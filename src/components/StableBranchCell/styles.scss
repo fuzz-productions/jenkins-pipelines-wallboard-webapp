@@ -1,0 +1,10 @@
+@import '../../styles/bootstrap';
+
+.stable-branch {
+
+  &-main-container {
+    background: $success;
+    display: flex;
+    flex-direction: column;
+  }
+}
