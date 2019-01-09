@@ -12,6 +12,7 @@ class AppPage extends PureComponent<JobsProps> {
   componentDidMount() {
     dotenv.config()
     this.props.loadJobs()
+    setInterval(() => this.props.loadJobs(), 10000)
   }
 
   render() {
@@ -21,27 +22,14 @@ class AppPage extends PureComponent<JobsProps> {
           <MainColumn>
             <Typography variant="h1"
                         component="h1">Stream</Typography>
-            <BuildList />
+            <BuildList isStream={true} />
           </MainColumn>
           <MainColumn>
-
+            <Typography variant="h1"
+                        component="h1">Attention Zone</Typography>
+            <BuildList isStream={false} />
           </MainColumn>
         </div>
-        {/*  <header className="App-header"> Fuzz {process.env.REACT_APP_GROUPNAME}
-          <br />
-
-          <List
-            grid={{
-              gutter: 16,
-              column: 4,
-              offset: 5,
-            }}
-            dataSource={this.props.jobModel.success}
-            renderItem={(item: FolderJob) => (
-              <List.Item><ProjectCell item={item} /></List.Item>
-            )}
-          />
-        </header>*/}
       </div>
     )
   }

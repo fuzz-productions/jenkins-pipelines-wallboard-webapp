@@ -26,18 +26,3 @@ export interface BuildInfoWithJob {
   parentJobName: string
 }
 
-export const jobIsRoot = (job: Job): boolean => {
-  const names = ['dev',
-    'develop',
-    'development',
-    'master']
-  return !!names.find((name) => name == job.name)
-}
-
-/**
- * Returns stable branches count
- */
-export const stableBranches = (job: FolderJob): number => {
-  return job.jobs
-    .reduce((sum, current) => current.lastBuild && current.lastBuild.result == 'SUCCESS' ? sum + 1 : sum, 0)
-}

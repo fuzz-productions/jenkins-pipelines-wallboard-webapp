@@ -1,6 +1,7 @@
-import { FolderJob, jobIsRoot } from '../../model'
+import { FolderJob} from '../../model'
 import { JobActions, JobActionTypes } from './actions'
 import { LoadingModel } from '../loading.model'
+import { jobIsRoot } from '../../model/job_utils'
 
 export interface JobsState {
   jobs: LoadingModel<Array<FolderJob>>

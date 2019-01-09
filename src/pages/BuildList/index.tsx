@@ -3,14 +3,19 @@ import './style.scss'
 import { buildsHawk, BuildsProps } from '../../redux/builds/hawk'
 import BranchStatusCell from '../../components/BranchStatusCell'
 
-class BuildList extends PureComponent<BuildsProps> {
+type Props = {
+  isStream: boolean
+}
+
+class BuildList extends PureComponent<BuildsProps & Props> {
 
   render(): React.ReactNode {
-    return <div className="build-list">
-      {this.props.mainBuildList.map((build) =>
+    const list = this.props.isStream ? this.props.mainBuildList : this.props.unsuccessfulBuildsList
+    return <>
+      {list.map((build) =>
         <BranchStatusCell key={`${build.parentJobName}-${build.job.name}-${build.buildInfo.displayName}`}
                           item={build} />)}
-    </div>
+    </>
   }
 }
 

@@ -3,6 +3,7 @@ import { BuildInfoWithJob } from '../../model'
 import './styles.scss'
 import { Card, CardContent, Typography } from '@material-ui/core'
 import ReactImageFallback from 'react-image-fallback'
+import { getUIName } from '../../model/job_utils'
 
 export interface BranchStatusCellProps {
   item: BuildInfoWithJob
@@ -19,12 +20,15 @@ export default function BranchStatusCell({ item }: BranchStatusCellProps) {
       <div className="status-info-chunk">
         <Typography component="h2"
                     className="status-job-name"
-                    variant="h5">{item.parentJobName}</Typography>
+                    variant="h5">{getUIName(item.parentJobName)}</Typography>
         <div className="status-container">
           <div className={`status-circle ${result && result.toLowerCase() || 'null'}`} />
           <Typography variant="h6"
                       component="p">{item.job.name} - {item.buildInfo.displayName}</Typography>
         </div>
+        <Typography
+          className="status-build-timestamp"
+          color="textSecondary">{item.buildInfo.timestamp}</Typography>
       </div>
     </CardContent>
   </Card>

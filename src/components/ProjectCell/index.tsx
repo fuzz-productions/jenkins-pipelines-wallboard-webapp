@@ -1,9 +1,10 @@
 /// project group cell
 import React from 'react'
 import { Card } from 'antd'
-import { FolderJob, stableBranches } from '../../model'
+import { FolderJob} from '../../model'
 import './styles.scss'
 import StableBranchCell from '../StableBranchCell'
+import { stableBranches } from '../../model/job_utils'
 
 export default function ProjectCell({ item }: { item: FolderJob }) {
   const stableCount = stableBranches(item)
