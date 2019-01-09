@@ -21,11 +21,13 @@ class AppPage extends PureComponent<JobsProps> {
         <div className="app-column-container">
           <MainColumn>
             <Typography variant="h1"
-                        component="h1">Stream</Typography>
+                        component="h1"
+                        className="app-header-text">Stream</Typography>
             <BuildList isStream={true} />
           </MainColumn>
           <MainColumn>
             <Typography variant="h1"
+                        className="app-header-text"
                         component="h1">Attention Zone</Typography>
             <BuildList isStream={false} />
           </MainColumn>
