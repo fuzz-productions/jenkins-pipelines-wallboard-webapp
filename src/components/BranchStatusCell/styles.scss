@@ -8,15 +8,16 @@
     align-items: center;
   }
 
-  &-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
-
   &-card {
-    margin: 16px;
+    margin: 8px 16px;
+
+    &-grid {
+      width: 50%;
+    }
+
+    &-list {
+      width: 100%;
+    }
   }
 
   &-card-container {
@@ -44,37 +45,59 @@
   }
 }
 
-.success {
-  padding-left: 4px;
-  text-align: left;
-  background-color: $success;
-  font-size: calc(30px);
+.status-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 8px;
+
+  &-success {
+    background-color: $success;
+
+    &-outline {
+
+    }
+  }
+
+  &-unstable {
+    background-color: $unstable;
+
+    &-outline {
+      border-color: $unstable;
+      border-width: 2px;
+      border-style: solid;
+    }
+  }
+
+  &-failure {
+    background-color: $failure;
+
+    &-outline {
+      border-color: $failure;
+      border-width: 5px;
+      border-style: solid;
+    }
+  }
+
+  &-aborted {
+    background-color: $aborted;
+
+    &-outline {
+      border-color: $aborted;
+      border-width: 2px;
+      border-style: solid;
+    }
+  }
+
+  &-null {
+    background-color: $unknown;
+
+    &-outline {
+      border-color: $unknown;
+      border-width: 2px;
+      border-style: solid;
+    }
+  }
+
 }
 
-.unstable {
-  padding-left: 4px;
-  text-align: left;
-  background-color: $unstable;
-  font-size: calc(30px);
-}
-
-.failure {
-  padding-left: 4px;
-  text-align: left;
-  background-color: $failure;
-  font-size: calc(30px);
-}
-
-.aborted {
-  padding-left: 4px;
-  text-align: left;
-  background-color: $aborted;
-  font-size: calc(30px);
-}
-
-.null {
-  padding-left: 4px;
-  text-align: left;
-  background-color: $unknown;
-  font-size: calc(30px);
-}
