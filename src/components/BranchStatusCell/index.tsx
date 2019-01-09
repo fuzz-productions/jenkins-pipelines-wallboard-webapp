@@ -4,6 +4,7 @@ import './styles.scss'
 import { Card, CardContent, Typography } from '@material-ui/core'
 import ReactImageFallback from 'react-image-fallback'
 import { getUIName } from '../../model/job_utils'
+import { userFriendlyFromLatestTime } from '../../model/build_utils'
 
 export interface BranchStatusCellProps {
   item: BuildInfoWithJob
@@ -28,7 +29,7 @@ export default function BranchStatusCell({ item }: BranchStatusCellProps) {
         </div>
         <Typography
           className="status-build-timestamp"
-          color="textSecondary">{item.buildInfo.timestamp}</Typography>
+          color="textSecondary">{userFriendlyFromLatestTime(item.buildInfo)}</Typography>
       </div>
     </CardContent>
   </Card>

@@ -1,4 +1,4 @@
-import { BuildInfo, BuildInfoWithJob, Job } from '../../model'
+import { BuildInfo, BuildInfoWithJob, BuildResult, Job } from '../../model'
 import { JobActions, JobActionTypes } from '../jobs/actions'
 
 export interface BuildsState {
@@ -12,7 +12,7 @@ export const initialBuildState: BuildsState = {
 }
 
 const buildInMainList = (job: Job, build: BuildInfo) => {
-  return job.isInQueue || build.result == 'SUCCESS' || build.building
+  return job.isInQueue || build.result === BuildResult.Success || build.building
 }
 
 export function buildsReducer(state: BuildsState = initialBuildState, actions: JobActions): BuildsState {
@@ -28,15 +28,26 @@ export function buildsReducer(state: BuildsState = initialBuildState, actions: J
       // TODO: keep around successful builds from previous that do not match updated list.
       const mainBuildList = flattenJobs.filter((job) => buildInMainList(job.job, job.job.lastBuild!))
         .sort((a, b) => {
-          if (a.buildInfo!.building) {
+          if (a.buildInfo.building && b.buildInfo.building) {
+            return b.buildInfo.timestamp - a.buildInfo.timestamp
+          } else if (a.buildInfo.building) {
             return -1
-          }
-          if (b.buildInfo.building) {
+          } else if (b.buildInfo.building) {
             return 1
           }
-          return a.buildInfo.timestamp - b.buildInfo.timestamp
+          return b.buildInfo.timestamp - a.buildInfo.timestamp
         })
       const unsuccessfulBuildsList = flattenJobs.filter((job) => !buildInMainList(job.job, job.job.lastBuild!))
+        .sort((a, b) => {
+          if (a.buildInfo.result === BuildResult.Failure && b.buildInfo.result === BuildResult.Failure) {
+            return b.buildInfo.timestamp - a.buildInfo.timestamp
+          } else if (a.buildInfo.result === BuildResult.Failure) {
+            return -1
+          } else if (b.buildInfo.result === BuildResult.Failure) {
+            return 1
+          }
+          return b.buildInfo.timestamp - a.buildInfo.timestamp
+        })
       return {
         ...state,
         mainBuildList,

@@ -13,11 +13,17 @@ export interface Job {
 
 export interface BuildInfo {
   timestamp: number
-  result?: string
+  result?: BuildResult
   displayName: string
   description: string
   building: boolean
   number: number
+}
+
+export enum BuildResult {
+  Failure = 'FAILURE',
+  Success = 'SUCCESS',
+  Unstable = 'UNSTABLE',
 }
 
 export interface BuildInfoWithJob {
