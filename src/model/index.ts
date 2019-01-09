@@ -13,13 +13,18 @@ export interface Job {
 
 export interface BuildInfo {
   timestamp: number
-  result: string
+  result?: string
   displayName: string
   description: string
   building: boolean
   number: number
 }
 
+export interface BuildInfoWithJob {
+  job: Job
+  buildInfo: BuildInfo
+  parentJobName: string
+}
 
 export const jobIsRoot = (job: Job): boolean => {
   const names = ['dev',

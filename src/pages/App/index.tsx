@@ -1,19 +1,13 @@
-import { List } from 'antd'
 import 'antd/dist/antd.css'
 import dotenv from 'dotenv'
 import React, { PureComponent } from 'react'
 import './style.scss'
-import ProjectCell from '../../components/ProjectCell'
-import { jobsHawk } from '../../redux/jobs/hawk'
-import { LoadingModel } from '../../redux/loading.model'
-import { FolderJob } from '../../model'
+import { jobsHawk, JobsProps } from '../../redux/jobs/hawk'
+import MainColumn from '../../components/MainColumn'
+import BuildList from '../BuildList'
+import { Typography } from '@material-ui/core'
 
-interface AppProps {
-  loadJobs: Function
-  jobModel: LoadingModel<Array<FolderJob>>
-}
-
-class AppPage extends PureComponent<AppProps> {
+class AppPage extends PureComponent<JobsProps> {
 
   componentDidMount() {
     dotenv.config()
@@ -21,10 +15,19 @@ class AppPage extends PureComponent<AppProps> {
   }
 
   render() {
-    console.log('props', this.props.jobModel)
     return (
       <div className="App">
-        <header className="App-header"> Fuzz {process.env.REACT_APP_GROUPNAME}
+        <div className="app-column-container">
+          <MainColumn>
+            <Typography variant="h1"
+                        component="h1">Stream</Typography>
+            <BuildList />
+          </MainColumn>
+          <MainColumn>
+
+          </MainColumn>
+        </div>
+        {/*  <header className="App-header"> Fuzz {process.env.REACT_APP_GROUPNAME}
           <br />
 
           <List
@@ -38,7 +41,7 @@ class AppPage extends PureComponent<AppProps> {
               <List.Item><ProjectCell item={item} /></List.Item>
             )}
           />
-        </header>
+        </header>*/}
       </div>
     )
   }

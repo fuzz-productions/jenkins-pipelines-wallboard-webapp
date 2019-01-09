@@ -4,6 +4,13 @@ import { selectJobModel } from './job.state.selectors'
 import { Dispatch } from 'redux'
 import { LoadJobsAction } from './actions'
 import { State } from '../reducers'
+import { LoadingModel } from '../loading.model'
+import { FolderJob } from '../../model'
+
+export type JobsProps = {
+  loadJobs: Function
+  jobModel: LoadingModel<Array<FolderJob>>
+}
 
 export function jobsHawk(WrappedComponent: any) {
   const jobsHoc = (props: any) => (

@@ -1,5 +1,8 @@
+@import '../../styles/bootstrap';
+
 .App {
   text-align: center;
+  background-color: $bg-color;
 }
 
 .App-header {
@@ -16,6 +19,24 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.app {
+  &-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  &-column-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+
+  &-header-text {
+
+  }
 }
 
 .ant-card-body {

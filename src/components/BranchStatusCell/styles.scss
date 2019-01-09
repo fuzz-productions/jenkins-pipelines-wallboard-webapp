@@ -1,29 +1,73 @@
 @import '../../styles/bootstrap';
 
+.status {
+  &-container {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+  }
+
+  &-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  &-card {
+    margin: 16px;
+  }
+
+  &-card-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-job-name {
+    text-align: left;
+  }
+
+  &-info-chunk {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-job-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 16px;
+  }
+}
+
 .success {
   padding-left: 4px;
   text-align: left;
   background-color: $success;
   font-size: calc(30px);
 }
+
 .unstable {
   padding-left: 4px;
   text-align: left;
   background-color: $unstable;
   font-size: calc(30px);
 }
+
 .failure {
   padding-left: 4px;
   text-align: left;
   background-color: $failure;
   font-size: calc(30px);
 }
+
 .aborted {
   padding-left: 4px;
   text-align: left;
   background-color: $aborted;
   font-size: calc(30px);
 }
+
 .null {
   padding-left: 4px;
   text-align: left;
