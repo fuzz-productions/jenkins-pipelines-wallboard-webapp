@@ -8,7 +8,7 @@ export interface Job {
   name: string,
   isInQueue: boolean,
   lastBuild?: BuildInfo
-  color: string
+  buildable: boolean
 }
 
 export interface BuildInfo {

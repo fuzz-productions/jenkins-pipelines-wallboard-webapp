@@ -34,6 +34,7 @@ export function jobReducer(state: JobsState = initialJobsState, action: JobActio
           }
           return 1
         })
+        value.jobs = value.jobs.filter((job) => job.buildable)
         projectList.push(value)
       }
       projectList.sort((a, b) => {
