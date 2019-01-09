@@ -7,6 +7,8 @@ import { getUIName } from '../../model/job_utils'
 import { userFriendlyFromLatestTime } from '../../model/build_utils'
 import fallbackIcon from '../../assets/ic_launcher.png'
 
+// @ts-ignore
+
 export interface BranchStatusCellProps {
   item: BuildInfoWithJob
   isStream: boolean
@@ -22,15 +24,14 @@ export default function BranchStatusCell({ item, isStream }: BranchStatusCellPro
           className="status-job-image"
           fallbackImage={fallbackIcon}
           src={`https://jenkins.fuzzhq.com/view/System/job/Job%20Icons/ws/${item.parentJobName}.png`} />
-        <div className="status-info-chunk">
-          <Typography component="h2"
+        <div className="status-info-chunk"
+             style={{ flex: 1 }}>
+          <Typography variant="h2"
+                      className="status-job-name status-job-name-header"
+                      component="p">{item.job.name}</Typography>
+          <Typography component="h6"
                       className="status-job-name"
-                      variant="h5">{getUIName(item.parentJobName)}</Typography>
-          <div className="status-container">
-            <div className={`status-circle ${statusColorClass}`} />
-            <Typography variant="h6"
-                        component="p">{item.job.name} - {item.buildInfo.displayName}</Typography>
-          </div>
+                      variant="h5">{item.buildInfo.displayName} - {getUIName(item.parentJobName)}</Typography>
           <Typography
             className="status-build-timestamp"
             color="textSecondary">{userFriendlyFromLatestTime(item.buildInfo)}</Typography>

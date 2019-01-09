@@ -27,11 +27,22 @@
 
   &-job-name {
     text-align: left;
+    padding-right: 16px;
+
+    &-header {
+      max-lines: 2;
+      width: 100%;
+      overflow: hidden;
+      padding-bottom: 4px;
+      overflow-wrap: break-word;
+    }
   }
 
   &-info-chunk {
+    width: 50%;
     display: flex;
     flex-direction: column;
+    align-content: stretch;
   }
 
   &-job-image {
@@ -55,7 +66,6 @@
     background-color: $success;
 
     &-outline {
-
     }
   }
 
@@ -74,7 +84,7 @@
 
     &-outline {
       border-color: $failure;
-      border-width: 5px;
+      border-width: 10px;
       border-style: solid;
     }
   }
