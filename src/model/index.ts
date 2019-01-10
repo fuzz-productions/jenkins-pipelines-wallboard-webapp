@@ -6,6 +6,7 @@ export interface FolderJob {
 
 export interface Job {
   name: string,
+  displayName: string,
   isInQueue: boolean,
   lastBuild?: BuildInfo
   buildable: boolean

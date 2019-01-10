@@ -48,7 +48,29 @@
   &-job-image {
     width: 100px;
     height: 100px;
-    margin-right: 16px;
+
+    &-opaque {
+      opacity: 0.6;
+    }
+
+    &-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-container {
+      position: relative;
+      display: flex;
+      align-content: center;
+      align-items: center;
+      margin-right: 16px;
+    }
   }
 
   &-build-timestamp {
@@ -74,7 +96,7 @@
 
     &-outline {
       border-color: $unstable;
-      border-width: 2px;
+      border-width: 5px;
       border-style: solid;
     }
   }
@@ -104,7 +126,7 @@
 
     &-outline {
       border-color: $unknown;
-      border-width: 2px;
+      border-width: 5px;
       border-style: solid;
     }
   }

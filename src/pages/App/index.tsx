@@ -5,7 +5,8 @@ import './style.scss'
 import { jobsHawk, JobsProps } from '../../redux/jobs/hawk'
 import MainColumn from '../../components/MainColumn'
 import BuildList from '../BuildList'
-import { Typography } from '@material-ui/core'
+import { IconButton, Typography } from '@material-ui/core'
+import { Settings } from '@material-ui/icons'
 
 class AppPage extends PureComponent<JobsProps> {
 
@@ -17,18 +18,23 @@ class AppPage extends PureComponent<JobsProps> {
 
   render() {
     return (
-      <div className="App">
+      <div className="app-container">
+        <div className="app-header-container">
+          <Typography variant="h1"
+                      component="h1"
+                      className="app-header-text">{this.props.jobFolder}</Typography>
+          <div
+            className="app-settings-icon">
+            <IconButton>
+              <Settings fontSize="large" />
+            </IconButton>
+          </div>
+        </div>
         <div className="app-column-container">
           <MainColumn>
-            <Typography variant="h1"
-                        component="h1"
-                        className="app-header-text">Stream</Typography>
             <BuildList isStream={true} />
           </MainColumn>
-          <MainColumn>
-            <Typography variant="h1"
-                        className="app-header-text"
-                        component="h1">Attention Zone</Typography>
+          <MainColumn flex={2}>
             <BuildList isStream={false} />
           </MainColumn>
         </div>
