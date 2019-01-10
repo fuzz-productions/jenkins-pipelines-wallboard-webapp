@@ -73,17 +73,16 @@
     }
   }
 
+  &-progress {
+    align-self: center;
+  }
+
   &-build-timestamp {
     text-align: left;
   }
 }
 
 .status-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 8px;
-
   &-success {
     background-color: $success;
 
@@ -116,7 +115,7 @@
 
     &-outline {
       border-color: $aborted;
-      border-width: 2px;
+      border-width: 5px;
       border-style: solid;
     }
   }
@@ -125,9 +124,6 @@
     background-color: $unknown;
 
     &-outline {
-      border-color: $unknown;
-      border-width: 5px;
-      border-style: solid;
     }
   }
 

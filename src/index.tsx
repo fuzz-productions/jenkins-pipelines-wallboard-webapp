@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import Index from './pages/App'
+import App from './pages/App'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
 import { createStore } from './redux/store'
@@ -10,7 +10,7 @@ export const rootStore = createStore()
 
 ReactDOM.render(
   <Provider store={rootStore}>
-    <Index />
+    <App />
   </Provider>,
   document.getElementById('root'),
 )
