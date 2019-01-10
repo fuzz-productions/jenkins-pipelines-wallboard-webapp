@@ -7,19 +7,19 @@ export interface MenuOption {
   value: string
 }
 
-interface Props {
+export interface MenuWithOptionProps {
   options: Array<MenuOption>
+  selectedOption?: MenuOption
+  onSelected: (option: MenuOption) => void
 }
 
 interface State {
-  selectedIndex: number
   anchorEl: any
 }
 
-export class MenuWithOptions extends Component<Props, State> {
+export class MenuWithOptions extends Component<MenuWithOptionProps, State> {
 
   state: State = {
-    selectedIndex: 0,
     anchorEl: null,
   }
 
@@ -33,27 +33,27 @@ export class MenuWithOptions extends Component<Props, State> {
     this.setState({ anchorEl: null })
   }
 
-  handleMenuItemClick = (index: number) => {
+  handleMenuItemClick = (opt: MenuOption) => {
     this.setState({
       anchorEl: null,
-      selectedIndex: index,
-    })
+    }, () => this.props.onSelected(opt))
   }
 
   render(): React.ReactNode {
-    let { options } = this.props
-    let { selectedIndex, anchorEl } = this.state
+    let { options, selectedOption } = this.props
+    let { anchorEl } = this.state
     return <div className="menu-opts-container">
       <Typography onClick={this.handleClickText}>
-        {options[selectedIndex] && options[selectedIndex].display}
+        {selectedOption && selectedOption.display}
+        {!selectedOption && 'Choose An Option'}
       </Typography>
       <Menu open={Boolean(anchorEl)}
             anchorEl={anchorEl}
             onClose={this.handleClose}>
-        {options.map((opt, index) => (
+        {options.map((opt) => (
           <MenuItem key={opt.value}
-                    selected={index === selectedIndex}
-                    onClick={() => this.handleMenuItemClick(index)}>
+                    selected={opt === selectedOption}
+                    onClick={() => this.handleMenuItemClick(opt)}>
             {opt.display}
           </MenuItem>
 

@@ -31,20 +31,22 @@ export class JobService {
   fetchJobs = async (jobFolder: string): Promise<Array<FolderJob>> => {
     const jobs = await axios.get(
       `https://jenkins.fuzzhq.com/job/${jobFolder}/api/json?pretty=true&depth=3&tree=${this.newJobsParamsPath()}`,
-      this.requestConfig())
+      JobService.requestConfig())
     return jobs.data.jobs
   }
 
   fetchOrganizationFolders = async (): Promise<Array<OrganizationFolder>> => {
-    const folders = await axios.get('https://jenkins.fuzzhq.com/api/json?pretty=true&tree=jobs%5Bname,url%5D', this.requestConfig())
+    const folders = await axios.get('https://jenkins.fuzzhq.com/api/json?pretty=true&tree=jobs%5Bname,url%5D', JobService.requestConfig())
     return folders.data.jobs.filter((job: OrganizationFolder) => job._class === 'jenkins.branch.OrganizationFolder')
   }
 
-  private requestConfig = () => ({
-    auth: {
-      username: process.env.REACT_APP_USERNAME || '',
-      password: process.env.REACT_APP_PASSWORD || '',
-    },
-  })
+  static requestConfig() {
+    return {
+      auth: {
+        username: process.env.REACT_APP_USERNAME || '',
+        password: process.env.REACT_APP_PASSWORD || '',
+      },
+    }
+  }
 }
 

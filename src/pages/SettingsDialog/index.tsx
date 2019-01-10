@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 import './styles.scss'
 import { MenuOption } from '../../components/MenuWithOptions'
@@ -10,23 +10,51 @@ interface Props {
   onClose: Function
 }
 
-class SettingsDialog extends PureComponent<Props & OrgsProps> {
+interface State {
+  selectedOrg?: MenuOption
+  selectedProjectFilter?: MenuOption
+}
+
+
+class SettingsDialog extends Component<Props & OrgsProps, State> {
+
+  state: State = {}
 
   onClose = () => {
     this.props.onClose()
   }
 
   onSave = () => {
+    const { selectedOrg } = this.state
+    const { selectFolder } = this.props
+
+    // save options and close
+    if (selectedOrg) {
+      selectFolder(selectedOrg.value)
+    }
+
     this.onClose()
   }
-
 
   componentDidMount(): void {
     this.props.loadOrgs()
   }
 
+  selectOrgFolder = (option: MenuOption) => {
+    this.setState({
+      selectedOrg: option,
+    })
+  }
+
+  selectProjectFilter = (option: MenuOption) => {
+    this.setState({
+      selectedProjectFilter: option,
+    })
+  }
+
   render(): React.ReactNode {
     const { open, orgModel } = this.props
+    const { selectedOrg, selectedProjectFilter } = this.state
     let foldersListing: Array<MenuOption> = []
     if (orgModel.isSuccess()) {
       foldersListing = orgModel.success.map((org) => ({
@@ -39,10 +67,18 @@ class SettingsDialog extends PureComponent<Props & OrgsProps> {
                    onClose={this.onClose}>
       <DialogTitle id="settings-dialog-title">Select Filters</DialogTitle>
       <DialogContent>
-        <SettingsFilter options={foldersListing}
-                        label="Projects Folder" />
-        <SettingsFilter options={foldersListing}
-                        label="Select Project" />
+        <SettingsFilter
+          selectedOption={selectedOrg || foldersListing[0]}
+          onSelected={this.selectOrgFolder}
+          options={foldersListing}
+          label="Projects Folder"
+        />
+        <SettingsFilter
+          selectedOption={selectedProjectFilter || foldersListing[0]}
+          onSelected={this.selectProjectFilter}
+          options={foldersListing}
+          label="Select Project"
+        />
       </DialogContent>
       <DialogActions>
         <Button color="primary"
