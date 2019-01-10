@@ -2,24 +2,27 @@ import { FolderJob } from '../../model'
 import { JobActions, JobActionTypes } from './actions'
 import { LoadingModel } from '../loading.model'
 import { jobIsRoot } from '../../model/job_utils'
+import { OrganizationActions, OrganizationActionTypes } from '../organizations/actions'
 
 export interface JobsState {
   jobs: LoadingModel<Array<FolderJob>>
-  folder: string
 }
 
 export const initialJobsState: JobsState = {
   jobs: LoadingModel.empty(),
-  folder: '',
 }
 
-export function jobReducer(state: JobsState = initialJobsState, action: JobActions): JobsState {
+export function jobReducer(state: JobsState = initialJobsState, action: JobActions | OrganizationActions): JobsState {
   switch (action.type) {
+    case OrganizationActionTypes.SelectOrganization:
+      return {
+        ...state,
+        jobs: LoadingModel.empty(),
+      }
     case JobActionTypes.LoadJobs:
       return {
         ...state,
         jobs: state.jobs.loading(),
-        folder: action.jobFolder,
       }
     case JobActionTypes.LoadJobsFailed:
       return {

@@ -45,8 +45,8 @@ class AppPage extends Component<JobsProps, State> {
         <div className="app-container">
           <AppBar position="static">
             <Toolbar>
-              <Typography variant="h1"
-                          component="h1"
+              <Typography variant="h2"
+                          component="h2"
                           color="inherit"
                           className="app-toolbar-text">{this.props.jobFolder}</Typography>
               <IconButton color="inherit"

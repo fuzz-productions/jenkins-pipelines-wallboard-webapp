@@ -18,7 +18,8 @@ const orgSagas = new OrganizationSagas(orgService)
 const sagas = [
   [
     jobSagas,
-    ['loadJobs'],
+    ['loadJobs',
+      'organizationFolderChanged'],
   ],
   [
     orgSagas,

@@ -9,7 +9,6 @@ export enum JobActionTypes {
 
 export class LoadJobsAction implements Action {
   readonly type = JobActionTypes.LoadJobs
-  constructor(public jobFolder: string) {}
 }
 
 export class LoadJobsSucceeded implements Action {
