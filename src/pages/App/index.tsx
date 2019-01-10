@@ -1,14 +1,23 @@
 import 'antd/dist/antd.css'
 import dotenv from 'dotenv'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import './style.scss'
 import { jobsHawk, JobsProps } from '../../redux/jobs/hawk'
 import MainColumn from '../../components/MainColumn'
 import BuildList from '../BuildList'
-import { createMuiTheme, IconButton, MuiThemeProvider, Typography } from '@material-ui/core'
+import { AppBar, createMuiTheme, IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core'
 import { Settings } from '@material-ui/icons'
+import SettingsDialog from '../SettingsDialog'
 
-class AppPage extends PureComponent<JobsProps> {
+interface State {
+  showSettings: boolean
+}
+
+class AppPage extends Component<JobsProps, State> {
+
+  state: State = {
+    showSettings: false,
+  }
 
   componentDidMount() {
     dotenv.config()
@@ -22,30 +31,44 @@ class AppPage extends PureComponent<JobsProps> {
     },
   })
 
+  showSettingsMenu = () => {
+    this.setState({ showSettings: true })
+  }
+
+  hideSettingsMenu = () => {
+    this.setState({ showSettings: false })
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={this.theme}>
         <div className="app-container">
-          <div className="app-header-container">
-            <Typography variant="h1"
-                        component="h1"
-                        className="app-header-text">{this.props.jobFolder}</Typography>
-            <div
-              className="app-settings-icon">
-              <IconButton>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h1"
+                          component="h1"
+                          color="inherit"
+                          className="app-toolbar-text">{this.props.jobFolder}</Typography>
+              <IconButton color="inherit"
+                          onClick={this.showSettingsMenu}>
                 <Settings fontSize="large" />
               </IconButton>
-            </div>
-          </div>
+            </Toolbar>
+          </AppBar>
           <div className="app-column-container">
             <MainColumn>
               <BuildList isStream={true} />
             </MainColumn>
             <MainColumn flex={2}>
+              <Typography variant="h4"
+                          component="h4"
+                          className="app-header-text">Attention Zone</Typography>
               <BuildList isStream={false} />
             </MainColumn>
           </div>
         </div>
+        <SettingsDialog open={this.state.showSettings}
+                        onClose={this.hideSettingsMenu} />
       </MuiThemeProvider>
     )
   }

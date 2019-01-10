@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Job } from '../../model'
+import { FolderJob, OrganizationFolder } from '../../model'
 
 export class JobService {
 
@@ -28,14 +28,23 @@ export class JobService {
     `displayName,name,url,jobs%5B${this.jobParamsPath()},jobs%5B${this.jobActionsPath()},name,displayName,url,buildable,${this.buildsPath('lastBuild')}%5D%5D`
 
 
-  fetchJobs = async (jobFolder: string): Promise<Array<Job>> => {
-    const jobs = await axios.get(`https://jenkins.fuzzhq.com/job/${jobFolder}/api/json?pretty=true&depth=3&tree=${this.newJobsParamsPath()}`, {
-      auth: {
-        username: process.env.REACT_APP_USERNAME || '',
-        password: process.env.REACT_APP_PASSWORD || '',
-      },
-    })
+  fetchJobs = async (jobFolder: string): Promise<Array<FolderJob>> => {
+    const jobs = await axios.get(
+      `https://jenkins.fuzzhq.com/job/${jobFolder}/api/json?pretty=true&depth=3&tree=${this.newJobsParamsPath()}`,
+      this.requestConfig())
     return jobs.data.jobs
   }
+
+  fetchOrganizationFolders = async (): Promise<Array<OrganizationFolder>> => {
+    const folders = await axios.get('https://jenkins.fuzzhq.com/api/json?pretty=true&tree=jobs%5Bname,url%5D', this.requestConfig())
+    return folders.data.jobs.filter((job: OrganizationFolder) => job._class === 'jenkins.branch.OrganizationFolder')
+  }
+
+  private requestConfig = () => ({
+    auth: {
+      username: process.env.REACT_APP_USERNAME || '',
+      password: process.env.REACT_APP_PASSWORD || '',
+    },
+  })
 }
 
