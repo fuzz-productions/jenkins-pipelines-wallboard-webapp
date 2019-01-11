@@ -5,6 +5,7 @@ export enum JobActionTypes {
   LoadJobs = '[Jobs] Load Jobs',
   LoadJobsSucceeded = '[Jobs] Load Jobs Succeeded',
   LoadJobsFailed = '[Jobs] Load Jobs Failed',
+  FilterJobs = '[Jobs] Filter Jobs',
 }
 
 export class LoadJobsAction implements Action {
@@ -25,8 +26,16 @@ export class LoadJobsFailed implements Action {
   }
 }
 
+export class FilterJobs implements Action {
+  readonly type = JobActionTypes.FilterJobs
+
+  constructor(public filter: string) {
+  }
+}
+
 export type JobActions =
   | LoadJobsAction
   | LoadJobsSucceeded
   | LoadJobsFailed
+  | FilterJobs
 

@@ -38,7 +38,6 @@ export function buildsReducer(state: BuildsState = initialBuildState, actions: J
         parentJobName: folderJob.displayName,
       } as BuildInfoWithJob))))
         .filter((job) => job.job.lastBuild)
-      // TODO: keep around successful builds from previous that do not match updated list.
       const mainBuildList = flattenJobs.filter((job) => buildInMainList(job.job, job.job.lastBuild!))
         .sort((a, b) => {
           if (a.buildInfo.building && b.buildInfo.building) {

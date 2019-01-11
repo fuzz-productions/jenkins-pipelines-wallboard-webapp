@@ -10,10 +10,12 @@ import { OrganizationService } from './organizations/service'
 import { OrganizationSagas } from './organizations/sagas'
 import { OrganizationStore } from './organizations/organization_store'
 import { SettingsSagas } from './settings/sagas'
+import { JobFilterStore } from './jobs/jobfilter_store'
 
 const jobsService = new JobService()
 const orgService = new OrganizationService()
 const organizationStore = new OrganizationStore()
+const jobFilterStore = new JobFilterStore()
 
 const jobSagas = new JobSagas(jobsService, organizationStore)
 const orgSagas = new OrganizationSagas(orgService, organizationStore)
