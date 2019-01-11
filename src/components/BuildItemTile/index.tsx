@@ -43,6 +43,7 @@ export default class BranchStatusCell extends Component<BranchStatusCellProps> {
               <PersonOutline />
               {filteredCulprits.map((c) => (
                 <Chip className="status-culprit-chip"
+                      key={c.fullName}
                       label={c.fullName} />
               ))}
             </div>}
