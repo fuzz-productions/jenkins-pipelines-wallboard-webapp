@@ -90,10 +90,12 @@ class SettingsDialog extends PureComponent<Props> {
     return projectsListing
   }
 
-  extractSelectedProjectFilter = (selectedProject: MenuOption | undefined, projects: Array<MenuOption>, currentProject: string): MenuOption | undefined => {
+  extractSelectedProjectFilter = (selectedProject: MenuOption | undefined, projects: Array<MenuOption>, currentProject?: string): MenuOption | undefined => {
     let projectToSelect = selectedProject
     if (!projectToSelect) {
-      projectToSelect = projects.find((proj) => proj.value === currentProject)
+      if (currentProject) {
+        projectToSelect = projects.find((proj) => proj.value === currentProject)
+      }
       if (!projectToSelect) {
         projectToSelect = projects[0]
       }

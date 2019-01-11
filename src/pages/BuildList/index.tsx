@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import './style.scss'
 import { buildsHawk, BuildsProps } from '../../redux/builds/hawk'
-import BranchStatusCell from '../../components/BranchStatusCell'
+import BranchStatusCell from '../../components/BuildItemTile'
 import { CircularProgress, GridList, Typography } from '@material-ui/core'
 
 type Props = {

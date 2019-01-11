@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { BuildInfoWithJob } from '../../model'
 import './styles.scss'
-import { Card, CardContent, CircularProgress, GridListTile, Typography } from '@material-ui/core'
+import { Card, CardContent, Chip, CircularProgress, GridListTile, Typography } from '@material-ui/core'
 import ReactImageFallback from 'react-image-fallback'
 import { userFriendlyFromLatestTime } from '../../model/build_utils'
 import fallbackIcon from '../../assets/ic_launcher.png'
+import { PersonOutline } from '@material-ui/icons'
 
 // @ts-ignore
 
@@ -20,6 +21,9 @@ export default class BranchStatusCell extends Component<BranchStatusCellProps> {
     let { buildInfo } = item
     let { result, building, displayName } = buildInfo
     const statusColorClass = `status-circle-${result && result.toLowerCase() || 'null'}`
+
+    // filter by invalid name like noreply or cesar
+    const filteredCulprits = buildInfo.culprits.filter((c) => c.fullName !== 'noreply' && c.fullName !== 'caguilar187')
     return <GridListTile className={!isStream ? 'status-card-grid' : 'status-card-list'}>
       <Card className="status-card">
         <CardContent className={`status-card-container ${statusColorClass}-outline`}>
@@ -35,6 +39,13 @@ export default class BranchStatusCell extends Component<BranchStatusCellProps> {
             <Typography variant="h2"
                         className="status-job-name status-job-name-header"
                         component="p">{displayName} - {item.job.displayName}</Typography>
+            {filteredCulprits.length > 0 && <div className="status-culprit-chip-container">
+              <PersonOutline />
+              {filteredCulprits.map((c) => (
+                <Chip className="status-culprit-chip"
+                      label={c.fullName} />
+              ))}
+            </div>}
             <Typography
               className="status-build-timestamp"
               color="textSecondary">{userFriendlyFromLatestTime(buildInfo)}</Typography>

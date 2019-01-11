@@ -10,6 +10,8 @@ import { Settings } from '@material-ui/icons'
 import SettingsDialog from '../SettingsDialog'
 import { JobConstants } from '../../redux/jobs/constants'
 import { orgsHawk, OrgsProps } from '../../redux/organizations/orgs.hawk'
+import { getOrgUIName } from '../../model/organization_utils'
+import { getUIName } from '../../model/job_utils'
 
 interface State {
   showSettings: boolean
@@ -52,8 +54,8 @@ class AppPage extends Component<JobsProps & OrgsProps, State> {
               <Typography variant="h2"
                           component="h2"
                           color="inherit"
-                          className="app-toolbar-text">{this.props.organizationFolder}
-                {this.props.jobFilter !== JobConstants.FilterViewAll && ` - ${this.props.jobFilter}`}</Typography>
+                          className="app-toolbar-text">{getOrgUIName(this.props.organizationFolder)}
+                {this.props.jobFilter && this.props.jobFilter !== JobConstants.FilterViewAll && ` - ${getUIName(this.props.jobFilter)}`}</Typography>
               <IconButton color="inherit"
                           onClick={this.showSettingsMenu}>
                 <Settings fontSize="large" />

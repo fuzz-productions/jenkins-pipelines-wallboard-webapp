@@ -27,7 +27,7 @@ export const getUIName = (name: string): string => {
 }
 
 ///
-const capitalize = (string: string) => {
+export const capitalize = (string: string) => {
   if (string.length == 0) {
     return string
   }

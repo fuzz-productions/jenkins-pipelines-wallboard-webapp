@@ -19,6 +19,12 @@ export interface BuildInfo {
   description: string
   building: boolean
   number: number
+  culprits: Array<Culprit>
+}
+
+export interface Culprit {
+  fullName: string
+  absoluteUrl: string
 }
 
 export enum BuildResult {

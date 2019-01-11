@@ -80,6 +80,16 @@
   &-build-timestamp {
     text-align: left;
   }
+
+  &-culprit-chip {
+    margin-left: 4px;
+    margin-right: 4px;
+    &-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
 }
 
 .status-circle {

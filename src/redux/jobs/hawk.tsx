@@ -10,7 +10,7 @@ export type JobsProps = {
   loadJobs: Function
   selectJobFilter: (name: string) => void
   organizationFolder: string
-  jobFilter: string
+  jobFilter?: string
   loadJobFilter: () => void
 }
 

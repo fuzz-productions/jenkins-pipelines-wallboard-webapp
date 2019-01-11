@@ -47,7 +47,6 @@ export default class JobSagas {
 
   private sendBuildsReceived = function* (self: JobSagas, response: Array<FolderJob>, filter: string | undefined) {
     let filteredJob = filter
-    console.log('Filter found', filter)
     if (filteredJob === '' || filteredJob === JobConstants.FilterViewAll) {
       filteredJob = undefined
     }
