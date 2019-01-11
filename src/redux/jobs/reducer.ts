@@ -3,21 +3,26 @@ import { JobActions, JobActionTypes } from './actions'
 import { LoadingModel } from '../loading.model'
 import { jobIsRoot } from '../../model/job_utils'
 import { OrganizationActions, OrganizationActionTypes } from '../organizations/actions'
-import { JobConstants } from './constants'
 
 export interface JobsState {
   jobs: LoadingModel<Array<FolderJob>>
-  jobFilter: string
+  jobFilter?: string
 }
 
 export const initialJobsState: JobsState = {
   jobs: LoadingModel.empty(),
-  jobFilter: JobConstants.FilterViewAll,
 }
 
 export function jobReducer(state: JobsState = initialJobsState, action: JobActions | OrganizationActions): JobsState {
   switch (action.type) {
+    case JobActionTypes.FilterJobs:
+    case JobActionTypes.SetJobFilter:
+      return {
+        ...state,
+        jobFilter: action.filter,
+      }
     case OrganizationActionTypes.SelectOrganization:
+      console.log('Selecting org', action.folder, state.jobFilter)
       return {
         ...state,
         jobs: LoadingModel.empty(),

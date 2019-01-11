@@ -36,4 +36,14 @@ export class OrganizationSagas {
   _saveOrganizationFolder = (self: OrganizationSagas, action: SelectOrganization) => {
     self.organizationStore.setOrganization(action.folder)
   }
+
+  loadOrganizationFolder = function* (self: OrganizationSagas) {
+    yield takeLatest(OrganizationActionTypes.LoadOrganizationFolder, self._loadOrganizationFolder.bind(null, self))
+  }
+
+  _loadOrganizationFolder = function* (self: OrganizationSagas) {
+    const organization = self.organizationStore.getOrganization()
+    console.log('Loadiing initial organization', organization)
+    yield put(new SelectOrganization(organization))
+  }
 }

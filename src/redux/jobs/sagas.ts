@@ -1,6 +1,6 @@
 import { JobService } from './jobs_service'
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { FilterJobs, JobActionTypes, LoadJobsFailed, LoadJobsSucceeded } from './actions'
+import { FilterJobs, JobActionTypes, LoadJobsFailed, LoadJobsSucceeded, SetJobFilter } from './actions'
 import { selectSelectedFolder } from '../organizations/selectors'
 import { OrganizationActionTypes, SelectOrganization } from '../organizations/actions'
 import { OrganizationStore } from '../organizations/organization_store'
@@ -9,11 +9,13 @@ import { BuildsReceived } from '../builds/actions'
 import { selectJobFilter, selectJobModel } from './job.state.selectors'
 import { LoadingModel } from '../loading.model'
 import { JobConstants } from './constants'
+import { JobFilterStore } from './jobfilter_store'
 
 export default class JobSagas {
 
   constructor(private service: JobService,
-              private organizationStore: OrganizationStore) {
+              private organizationStore: OrganizationStore,
+              private jobFilterStore: JobFilterStore) {
   }
 
   loadJobs = function* loadJobs(self: JobSagas) {
@@ -40,11 +42,12 @@ export default class JobSagas {
 
   private sendBuildsReceivedWithFilter = function* (self: JobSagas, response: Array<FolderJob>) {
     const filteredJob = yield select(selectJobFilter)
-    yield self.sendBuildsReceived(response, filteredJob)
+    yield self.sendBuildsReceived(self, response, filteredJob)
   }
 
-  private sendBuildsReceived = function* (response: Array<FolderJob>, filter: string | undefined) {
+  private sendBuildsReceived = function* (self: JobSagas, response: Array<FolderJob>, filter: string | undefined) {
     let filteredJob = filter
+    console.log('Filter found', filter)
     if (filteredJob === '' || filteredJob === JobConstants.FilterViewAll) {
       filteredJob = undefined
     }
@@ -55,6 +58,7 @@ export default class JobSagas {
       parentJobName: folderJob.displayName,
     } as BuildInfoWithJob))))
       .filter((job) => job.job.lastBuild && (!filteredJob || filteredJob === job.parentJobName))
+    yield put(new SetJobFilter(filteredJob || JobConstants.FilterViewAll))
     yield put(new BuildsReceived(flattenJobs))
   }
 
@@ -63,6 +67,7 @@ export default class JobSagas {
   }
 
   _organizationFolderChanged = function* (self: JobSagas, action: SelectOrganization) {
+    console.log('Org changed', action.folder)
     try {
       const response = yield call(self.service.fetchJobs, action.folder)
       yield put(new LoadJobsSucceeded(response))
@@ -80,7 +85,18 @@ export default class JobSagas {
   _jobsFiltered = function* (self: JobSagas, action: FilterJobs) {
     const response: LoadingModel<Array<FolderJob>> = yield select(selectJobModel)
     const jobs = response.optionalSuccess || []
+    yield self.jobFilterStore.setJobFilter(action.filter)
     console.log('Jobs filtered', action.filter)
-    yield self.sendBuildsReceived(jobs, action.filter)
+    yield self.sendBuildsReceived(self, jobs, action.filter)
+  }
+
+  loadJobFilter = function* (self: JobSagas) {
+    yield takeLatest(JobActionTypes.LoadJobFilter, self._loadJobFilter.bind(null, self))
+  }
+
+  _loadJobFilter = function* (self: JobSagas) {
+    const filter = self.jobFilterStore.getJobFilter() || JobConstants.FilterViewAll
+    console.log('Loading Job filter from initial', filter)
+    yield put(new SetJobFilter(filter))
   }
 }

@@ -5,13 +5,14 @@ import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import React from 'react'
 import { selectOrgModel, selectSelectedFolder } from './selectors'
-import { LoadOrganizations, SelectOrganization } from './actions'
+import { LoadOrganizationFolder, LoadOrganizations, SelectOrganization } from './actions'
 
 export type OrgsProps = {
   orgModel: LoadingModel<Array<OrganizationFolder>>
   currentFolder: string
   selectFolder: (folder: string) => void
   loadOrgs: () => void
+  loadInitialOrganization: () => void
 }
 
 export function orgsHawk(WrappedComponent: any) {
@@ -27,6 +28,7 @@ export function orgsHawk(WrappedComponent: any) {
   const mapDispatchToProps = (dispatch: Dispatch) => ({
     selectFolder: (folderName: string) => dispatch(new SelectOrganization(folderName)),
     loadOrgs: () => dispatch(new LoadOrganizations()),
+    loadInitialOrganization: () => dispatch(new LoadOrganizationFolder()),
   })
 
   return connect(mapStateToProps, mapDispatchToProps)(orgsHoc)

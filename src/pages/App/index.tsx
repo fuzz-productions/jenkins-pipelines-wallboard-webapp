@@ -9,12 +9,13 @@ import { AppBar, createMuiTheme, IconButton, MuiThemeProvider, Toolbar, Typograp
 import { Settings } from '@material-ui/icons'
 import SettingsDialog from '../SettingsDialog'
 import { JobConstants } from '../../redux/jobs/constants'
+import { orgsHawk, OrgsProps } from '../../redux/organizations/orgs.hawk'
 
 interface State {
   showSettings: boolean
 }
 
-class AppPage extends Component<JobsProps, State> {
+class AppPage extends Component<JobsProps & OrgsProps, State> {
 
   state: State = {
     showSettings: false,
@@ -22,6 +23,8 @@ class AppPage extends Component<JobsProps, State> {
 
   componentDidMount() {
     dotenv.config()
+    this.props.loadInitialOrganization()
+    this.props.loadJobFilter()
     this.props.loadJobs()
     setInterval(() => this.props.loadJobs(), 10000)
   }
@@ -76,4 +79,4 @@ class AppPage extends Component<JobsProps, State> {
   }
 }
 
-export default jobsHawk(AppPage)
+export default orgsHawk(jobsHawk(AppPage))

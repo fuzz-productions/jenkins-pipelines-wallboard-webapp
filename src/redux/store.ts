@@ -17,7 +17,7 @@ const orgService = new OrganizationService()
 const organizationStore = new OrganizationStore()
 const jobFilterStore = new JobFilterStore()
 
-const jobSagas = new JobSagas(jobsService, organizationStore)
+const jobSagas = new JobSagas(jobsService, organizationStore, jobFilterStore)
 const orgSagas = new OrganizationSagas(orgService, organizationStore)
 const settingsSagas = new SettingsSagas(jobsService)
 
@@ -26,12 +26,14 @@ const sagas = [
     jobSagas,
     ['loadJobs',
       'organizationFolderChanged',
-      'jobsFiltered'],
+      'jobsFiltered',
+      'loadJobFilter'],
   ],
   [
     orgSagas,
     ['loadOrganizations',
-      'saveOrganizationFolder'],
+      'saveOrganizationFolder',
+      'loadOrganizationFolder'],
   ],
   [
     settingsSagas,

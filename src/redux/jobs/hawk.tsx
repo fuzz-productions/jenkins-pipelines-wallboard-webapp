@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React from 'react'
 import { Dispatch } from 'redux'
-import { FilterJobs, LoadJobsAction } from './actions'
+import { FilterJobs, LoadJobFilter, LoadJobsAction } from './actions'
 import { State } from '../reducers'
 import { selectSelectedFolder } from '../organizations/selectors'
 import { selectJobFilter } from './job.state.selectors'
@@ -11,6 +11,7 @@ export type JobsProps = {
   selectJobFilter: (name: string) => void
   organizationFolder: string
   jobFilter: string
+  loadJobFilter: () => void
 }
 
 export function jobsHawk(WrappedComponent: any) {
@@ -26,6 +27,7 @@ export function jobsHawk(WrappedComponent: any) {
   const mapDispatchToProps = (dispatch: Dispatch) => ({
     loadJobs: () => dispatch(new LoadJobsAction()),
     selectJobFilter: (name: string) => dispatch(new FilterJobs(name)),
+    loadJobFilter: () => dispatch(new LoadJobFilter()),
   })
 
   return connect(mapStateToProps, mapDispatchToProps)(jobsHoc)

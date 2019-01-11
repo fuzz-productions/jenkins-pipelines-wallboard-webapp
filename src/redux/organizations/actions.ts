@@ -6,6 +6,7 @@ export enum OrganizationActionTypes {
   LoadOrganizationsSucceeded = '[Organizations] Load Organizations Succeeded',
   LoadOrganizationsFailed = '[Organizations] Load Organizations Failed',
   SelectOrganization = '[Organization] Select Organization',
+  LoadOrganizationFolder = '[Organization] Load Organization Folder',
 }
 
 export class LoadOrganizations implements Action {
@@ -33,8 +34,13 @@ export class SelectOrganization implements Action {
   }
 }
 
+export class LoadOrganizationFolder implements Action {
+  readonly type = OrganizationActionTypes.LoadOrganizationFolder
+}
+
 export type OrganizationActions =
   | LoadOrganizations
   | LoadOrganizationsSucceeded
   | LoadOrganizationsFailed
   | SelectOrganization
+  | LoadOrganizationFolder
