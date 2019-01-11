@@ -8,13 +8,11 @@ import { JobConstants } from './constants'
 export interface JobsState {
   jobs: LoadingModel<Array<FolderJob>>
   jobFilter: string
-  filteredJobs: Array<FolderJob>
 }
 
 export const initialJobsState: JobsState = {
   jobs: LoadingModel.empty(),
   jobFilter: JobConstants.FilterViewAll,
-  filteredJobs: [],
 }
 
 export function jobReducer(state: JobsState = initialJobsState, action: JobActions | OrganizationActions): JobsState {
@@ -34,15 +32,6 @@ export function jobReducer(state: JobsState = initialJobsState, action: JobActio
         ...state,
         jobs: LoadingModel.error(action.error),
       }
-    case JobActionTypes.FilterJobs: {
-      const jobs = state.jobs.optionalSuccess || []
-      const filteredJobs = jobs.filter((job) => job.displayName === action.filter)
-      return {
-        ...state,
-        jobFilter: action.filter,
-        filteredJobs: filteredJobs,
-      }
-    }
     case JobActionTypes.LoadJobsSucceeded:
       let { jobs } = action
       let projectList = []

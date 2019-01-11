@@ -9,8 +9,5 @@ export const selectJobsState = createSelector(selectAppState,
 export const selectJobModel = createSelector(selectJobsState,
   (state: JobsState) => state.jobs)
 
-export const selectFilteredJobs = createSelector(selectJobsState,
-  (state: JobsState) => state.filteredJobs)
-
 export const selectJobFilter = createSelector(selectJobsState,
   (state: JobsState) => state.jobFilter)

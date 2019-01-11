@@ -8,6 +8,7 @@ import BuildList from '../BuildList'
 import { AppBar, createMuiTheme, IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core'
 import { Settings } from '@material-ui/icons'
 import SettingsDialog from '../SettingsDialog'
+import { JobConstants } from '../../redux/jobs/constants'
 
 interface State {
   showSettings: boolean
@@ -48,7 +49,8 @@ class AppPage extends Component<JobsProps, State> {
               <Typography variant="h2"
                           component="h2"
                           color="inherit"
-                          className="app-toolbar-text">{this.props.organizationFolder}</Typography>
+                          className="app-toolbar-text">{this.props.organizationFolder}
+                {this.props.jobFilter !== JobConstants.FilterViewAll && ` - ${this.props.jobFilter}`}</Typography>
               <IconButton color="inherit"
                           onClick={this.showSettingsMenu}>
                 <Settings fontSize="large" />
