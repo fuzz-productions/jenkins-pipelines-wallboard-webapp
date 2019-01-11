@@ -53,7 +53,7 @@ class SettingsDialog extends Component<Props & OrgsProps, State> {
   }
 
   render(): React.ReactNode {
-    const { open, orgModel } = this.props
+    const { open, orgModel, currentFolder } = this.props
     const { selectedOrg, selectedProjectFilter } = this.state
     let foldersListing: Array<MenuOption> = []
     if (orgModel.isSuccess()) {
@@ -62,19 +62,26 @@ class SettingsDialog extends Component<Props & OrgsProps, State> {
         value: org.name,
       }))
     }
+    let orgToSelect = selectedOrg
+    if (!orgToSelect) {
+      orgToSelect = foldersListing.find((org) => org.value === currentFolder)
+      if (!orgToSelect) { // if all else fails
+        orgToSelect = foldersListing[0]
+      }
+    }
     return <Dialog open={open}
                    aria-labelledby="settings-dialog-title"
                    onClose={this.onClose}>
       <DialogTitle id="settings-dialog-title">Select Filters</DialogTitle>
       <DialogContent>
         <SettingsFilter
-          selectedOption={selectedOrg || foldersListing[0]}
+          selectedOption={orgToSelect}
           onSelected={this.selectOrgFolder}
           options={foldersListing}
           label="Projects Folder"
         />
         <SettingsFilter
-          selectedOption={selectedProjectFilter || foldersListing[0]}
+          selectedOption={orgToSelect}
           onSelected={this.selectProjectFilter}
           options={foldersListing}
           label="Select Project"

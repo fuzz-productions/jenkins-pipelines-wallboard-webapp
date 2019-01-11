@@ -10,7 +10,7 @@ export interface OrganizationState {
 
 export const initialOrganizationState: OrganizationState = {
   folders: LoadingModel.empty(),
-  selectedFolder: 'ios-projects',
+  selectedFolder: '',
 }
 
 export function organizationReducer(state: OrganizationState = initialOrganizationState, action: OrganizationActions): OrganizationState {

@@ -15,7 +15,7 @@ class BuildList extends PureComponent<BuildsProps & Props> {
     const list = isStream ? mainBuildList : unsuccessfulBuildsList
     const isEmpty = list.length === 0
     return <>
-      {buildsModel.isLoading && <div className="build-list-loading-container">
+      {buildsModel.isLoading && isEmpty && <div className="build-list-loading-container">
         <Typography variant="h3"
                     className="build-list-loading-label"
                     component="p">Loading Builds</Typography>
@@ -27,7 +27,7 @@ class BuildList extends PureComponent<BuildsProps & Props> {
           component="h1"
         >All Builds Clear!</Typography>
       </div>}
-      {!isEmpty && !buildsModel.isLoading && <GridList
+      {!isEmpty && <GridList
         cols={2}>
         {list.map((build) =>
           <BranchStatusCell key={`${build.parentJobName}-${build.job.name}-${build.buildInfo.displayName}`}
