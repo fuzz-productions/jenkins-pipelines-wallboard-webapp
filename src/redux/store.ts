@@ -25,7 +25,8 @@ const sagas = [
   [
     jobSagas,
     ['loadJobs',
-      'organizationFolderChanged'],
+      'organizationFolderChanged',
+      'jobsFiltered'],
   ],
   [
     orgSagas,

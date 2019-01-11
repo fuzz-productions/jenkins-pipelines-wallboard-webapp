@@ -3,6 +3,7 @@ import { JobActions, JobActionTypes } from './actions'
 import { LoadingModel } from '../loading.model'
 import { jobIsRoot } from '../../model/job_utils'
 import { OrganizationActions, OrganizationActionTypes } from '../organizations/actions'
+import { JobConstants } from './constants'
 
 export interface JobsState {
   jobs: LoadingModel<Array<FolderJob>>
@@ -12,7 +13,7 @@ export interface JobsState {
 
 export const initialJobsState: JobsState = {
   jobs: LoadingModel.empty(),
-  jobFilter: 'All',
+  jobFilter: JobConstants.FilterViewAll,
   filteredJobs: [],
 }
 

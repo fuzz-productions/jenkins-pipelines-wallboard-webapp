@@ -8,8 +8,10 @@ import { LoadingModel } from '../../redux/loading.model'
 import { FolderJob, OrganizationFolder } from '../../model'
 import { settingsHawk, SettingsProps } from '../../redux/settings/settings.hawk'
 import { getUIName } from '../../model/job_utils'
+import { jobsHawk, JobsProps } from '../../redux/jobs/hawk'
+import { JobConstants } from '../../redux/jobs/constants'
 
-interface Props extends OrgsProps, SettingsProps {
+interface Props extends OrgsProps, SettingsProps, JobsProps {
   open: boolean
   onClose: Function
 }
@@ -21,11 +23,14 @@ class SettingsDialog extends PureComponent<Props> {
   }
 
   onSave = () => {
-    const { selectFolder, currentOrg, currentProject } = this.props
+    const { selectFolder, currentOrg, currentProject, selectJobFilter } = this.props
 
     // save options and close
     if (currentOrg) {
       selectFolder(currentOrg.value)
+    }
+    if (currentProject) {
+      selectJobFilter(currentProject.value)
     }
 
     this.onClose()
@@ -74,7 +79,7 @@ class SettingsDialog extends PureComponent<Props> {
     let projectsListing: Array<MenuOption> = []
     projectsListing.push({
       display: 'View All',
-      value: 'View All',
+      value: JobConstants.FilterViewAll,
     })
     if (projectModel.isSuccess()) {
       projectsListing = projectsListing.concat(projectModel.success.map((project) => ({
@@ -97,11 +102,11 @@ class SettingsDialog extends PureComponent<Props> {
   }
 
   render(): React.ReactNode {
-    const { open, orgModel, currentFolder, currentOrg, currentProject, projectsModel } = this.props
+    const { open, orgModel, currentFolder, currentOrg, currentProject, projectsModel, jobFilter } = this.props
     let foldersListing = this.extractFolderListing(orgModel)
     let projectsListing = this.extractProjectListing(projectsModel)
     let orgToSelect = this.extractSelectedOrganization(currentOrg, foldersListing, currentFolder)
-    let projectToSelect = this.extractSelectedProjectFilter(currentProject, projectsListing, 'All')
+    let projectToSelect = this.extractSelectedProjectFilter(currentProject, projectsListing, jobFilter)
     return <Dialog open={open}
                    aria-labelledby="settings-dialog-title"
                    onClose={this.onClose}>
@@ -135,4 +140,4 @@ class SettingsDialog extends PureComponent<Props> {
 
 }
 
-export default settingsHawk(orgsHawk(SettingsDialog))
+export default jobsHawk(settingsHawk(orgsHawk(SettingsDialog)))

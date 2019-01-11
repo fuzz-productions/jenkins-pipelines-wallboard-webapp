@@ -1,6 +1,7 @@
 import { BuildInfo, BuildInfoWithJob, BuildResult, Job } from '../../model'
 import { JobActions, JobActionTypes } from '../jobs/actions'
 import { LoadingModel } from '../loading.model'
+import { BuildActions, BuildActionTypes } from './actions'
 
 export interface BuildsState {
   mainBuildList: Array<BuildInfoWithJob>
@@ -18,7 +19,7 @@ const buildInMainList = (job: Job, build: BuildInfo) => {
   return job.isInQueue || build.result === BuildResult.Success || build.building
 }
 
-export function buildsReducer(state: BuildsState = initialBuildState, actions: JobActions): BuildsState {
+export function buildsReducer(state: BuildsState = initialBuildState, actions: JobActions | BuildActions): BuildsState {
   switch (actions.type) {
     case JobActionTypes.LoadJobs:
       return {
@@ -30,15 +31,8 @@ export function buildsReducer(state: BuildsState = initialBuildState, actions: J
         ...state,
         buildsStatus: LoadingModel.error(actions.error),
       }
-    case JobActionTypes.LoadJobsSucceeded:
-      let flattenJobs: Array<BuildInfoWithJob> = []
-      flattenJobs = flattenJobs.concat.apply([], actions.jobs.map((folderJob) => folderJob.jobs.map((job) => ({
-        job: job,
-        buildInfo: job.lastBuild!,
-        parentJobName: folderJob.displayName,
-      } as BuildInfoWithJob))))
-        .filter((job) => job.job.lastBuild)
-      const mainBuildList = flattenJobs.filter((job) => buildInMainList(job.job, job.job.lastBuild!))
+    case BuildActionTypes.BuildsReceived:
+      const mainBuildList = actions.buildInfo.filter((job) => buildInMainList(job.job, job.job.lastBuild!))
         .sort((a, b) => {
           if (a.buildInfo.building && b.buildInfo.building) {
             return b.buildInfo.timestamp - a.buildInfo.timestamp
@@ -49,7 +43,7 @@ export function buildsReducer(state: BuildsState = initialBuildState, actions: J
           }
           return b.buildInfo.timestamp - a.buildInfo.timestamp
         })
-      const unsuccessfulBuildsList = flattenJobs.filter((job) => !buildInMainList(job.job, job.job.lastBuild!))
+      const unsuccessfulBuildsList = actions.buildInfo.filter((job) => !buildInMainList(job.job, job.job.lastBuild!))
         .sort((a, b) => {
           if (a.buildInfo.result === BuildResult.Failure && b.buildInfo.result === BuildResult.Failure) {
             return b.buildInfo.timestamp - a.buildInfo.timestamp

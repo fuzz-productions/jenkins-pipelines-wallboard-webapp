@@ -48,7 +48,7 @@ class AppPage extends Component<JobsProps, State> {
               <Typography variant="h2"
                           component="h2"
                           color="inherit"
-                          className="app-toolbar-text">{this.props.jobFolder}</Typography>
+                          className="app-toolbar-text">{this.props.organizationFolder}</Typography>
               <IconButton color="inherit"
                           onClick={this.showSettingsMenu}>
                 <Settings fontSize="large" />
