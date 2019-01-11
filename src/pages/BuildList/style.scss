@@ -1,0 +1,28 @@
+.build-list {
+
+  &-main-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-empty-message {
+
+  }
+
+  &-loading {
+
+    &-container {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    &-label {
+      padding-right: 8px;
+    }
+  }
+}

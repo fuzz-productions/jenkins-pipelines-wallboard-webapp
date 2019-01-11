@@ -3,12 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "3.7.1",
+    "@material-ui/icons": "^3.0.2",
     "antd": "^3.10.9",
     "axios": "^0.18.0",
+    "date-fns": "^1.30.1",
     "dotenv": "^6.1.0",
+    "node-sass": "^4.11.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1"
+    "react-image-fallback": "^8.0.0",
+    "react-redux": "^6.0.0",
+    "react-scripts": "2.1.1",
+    "redux": "^4.0.1",
+    "redux-saga": "^0.16.2",
+    "remote-redux-devtools": "^0.5.16",
+    "reselect": "^4.0.0",
+    "sass": "^1.15.3",
+    "styled-components": "^4.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -24,5 +36,20 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@types/date-fns": "^2.6.0",
+    "@types/dotenv": "^6.1.0",
+    "@types/node": "^10.12.18",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "@types/react-image-fallback": "^8.0.0",
+    "@types/react-redux": "^6.0.12",
+    "@types/redux": "^3.6.0",
+    "@types/redux-saga": "^0.10.5",
+    "@types/remote-redux-devtools": "^0.5.3",
+    "@types/reselect": "^2.2.0",
+    "@types/styled-components": "^4.1.5",
+    "typescript": "^3.2.2"
+  }
 }

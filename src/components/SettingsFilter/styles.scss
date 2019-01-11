@@ -1,0 +1,8 @@
+.settings-filter {
+  &-line-item{
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    justify-content: space-between;
+  }
+}
