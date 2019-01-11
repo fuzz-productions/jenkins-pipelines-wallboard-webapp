@@ -5,15 +5,16 @@ import { MenuOption } from '../../components/MenuWithOptions'
 import { SettingsFilter } from '../../components/SettingsFilter'
 import { orgsHawk, OrgsProps } from '../../redux/organizations/orgs.hawk'
 import { LoadingModel } from '../../redux/loading.model'
-import { OrganizationFolder } from '../../model'
+import { FolderJob, OrganizationFolder } from '../../model'
 import { settingsHawk, SettingsProps } from '../../redux/settings/settings.hawk'
+import { getUIName } from '../../model/job_utils'
 
-interface Props {
+interface Props extends OrgsProps, SettingsProps {
   open: boolean
   onClose: Function
 }
 
-class SettingsDialog extends PureComponent<Props & OrgsProps & SettingsProps> {
+class SettingsDialog extends PureComponent<Props> {
 
   onClose = () => {
     this.props.onClose()
@@ -30,8 +31,13 @@ class SettingsDialog extends PureComponent<Props & OrgsProps & SettingsProps> {
     this.onClose()
   }
 
-  componentDidMount(): void {
-    this.props.loadOrgs()
+  componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
+    if (nextProps) {
+      if (nextProps.open && !this.props.open) {
+        this.props.loadOrgs()
+        this.props.loadProjects()
+      }
+    }
   }
 
   selectOrgFolder = (option: MenuOption) => {
@@ -53,7 +59,7 @@ class SettingsDialog extends PureComponent<Props & OrgsProps & SettingsProps> {
     return foldersListing
   }
 
-  extractSelectedOrganization = (selectedOrg: MenuOption | undefined, foldersListing: Array<MenuOption>, currentFolder: string) => {
+  extractSelectedOrganization = (selectedOrg: MenuOption | undefined, foldersListing: Array<MenuOption>, currentFolder: string): MenuOption | undefined => {
     let orgToSelect = selectedOrg
     if (!orgToSelect) {
       orgToSelect = foldersListing.find((org) => org.value === currentFolder)
@@ -64,10 +70,38 @@ class SettingsDialog extends PureComponent<Props & OrgsProps & SettingsProps> {
     return orgToSelect
   }
 
+  extractProjectListing = (projectModel: LoadingModel<Array<FolderJob>>): Array<MenuOption> => {
+    let projectsListing: Array<MenuOption> = []
+    projectsListing.push({
+      display: 'View All',
+      value: 'View All',
+    })
+    if (projectModel.isSuccess()) {
+      projectsListing = projectsListing.concat(projectModel.success.map((project) => ({
+        display: getUIName(project.displayName),
+        value: project.displayName,
+      })))
+    }
+    return projectsListing
+  }
+
+  extractSelectedProjectFilter = (selectedProject: MenuOption | undefined, projects: Array<MenuOption>, currentProject: string): MenuOption | undefined => {
+    let projectToSelect = selectedProject
+    if (!projectToSelect) {
+      projectToSelect = projects.find((proj) => proj.value === currentProject)
+      if (!projectToSelect) {
+        projectToSelect = projects[0]
+      }
+    }
+    return projectToSelect
+  }
+
   render(): React.ReactNode {
-    const { open, orgModel, currentFolder, currentOrg, currentProject } = this.props
+    const { open, orgModel, currentFolder, currentOrg, currentProject, projectsModel } = this.props
     let foldersListing = this.extractFolderListing(orgModel)
+    let projectsListing = this.extractProjectListing(projectsModel)
     let orgToSelect = this.extractSelectedOrganization(currentOrg, foldersListing, currentFolder)
+    let projectToSelect = this.extractSelectedProjectFilter(currentProject, projectsListing, 'All')
     return <Dialog open={open}
                    aria-labelledby="settings-dialog-title"
                    onClose={this.onClose}>
@@ -80,9 +114,9 @@ class SettingsDialog extends PureComponent<Props & OrgsProps & SettingsProps> {
           label="Projects Folder"
         />
         <SettingsFilter
-          selectedOption={orgToSelect}
+          selectedOption={projectToSelect}
           onSelected={this.selectProjectFilter}
-          options={foldersListing}
+          options={projectsListing}
           label="Select Project"
         />
       </DialogContent>

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import React from 'react'
 import { LoadProjects, SelectProjectFilter, SelectTempOrganizationSetting } from './actions'
 import { MenuOption } from '../../components/MenuWithOptions'
-import { selectSelectedOrg, selectSelectedProjectFilter } from './selectors'
+import { selectProjectsModel, selectSelectedOrg, selectSelectedProjectFilter } from './selectors'
 
 export type SettingsProps = {
   projectsModel: LoadingModel<Array<FolderJob>>
@@ -25,7 +25,7 @@ export function settingsHawk(WrappedComponent: any) {
     />
   )
   const mapStateToProps = (state: State) => ({
-    projectsModel: selectOrgModel(state),
+    projectsModel: selectProjectsModel(state),
     currentOrg: selectSelectedOrg(state),
     currentProject: selectSelectedProjectFilter(state),
   })

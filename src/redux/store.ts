@@ -9,6 +9,7 @@ import actionToPlainObjectConverter from '../utils/action_class'
 import { OrganizationService } from './organizations/service'
 import { OrganizationSagas } from './organizations/sagas'
 import { OrganizationStore } from './organizations/organization_store'
+import { SettingsSagas } from './settings/sagas'
 
 const jobsService = new JobService()
 const orgService = new OrganizationService()
@@ -16,6 +17,7 @@ const organizationStore = new OrganizationStore()
 
 const jobSagas = new JobSagas(jobsService, organizationStore)
 const orgSagas = new OrganizationSagas(orgService, organizationStore)
+const settingsSagas = new SettingsSagas(jobsService)
 
 const sagas = [
   [
@@ -27,6 +29,11 @@ const sagas = [
     orgSagas,
     ['loadOrganizations',
       'saveOrganizationFolder'],
+  ],
+  [
+    settingsSagas,
+    ['organizationFolderChanged',
+      'fetchProjects'],
   ],
 ]
 
