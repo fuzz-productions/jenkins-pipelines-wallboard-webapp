@@ -2,7 +2,7 @@ export class LoadingModel<T> {
 
   static empty = <T>() => new LoadingModel<T>(false, false, false, undefined)
 
-  static success<T>(success: T): LoadingModel<T> {
+  static success<T>(success?: T): LoadingModel<T> {
     return new LoadingModel(false, false, true, success)
   }
 

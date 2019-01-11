@@ -11,3 +11,6 @@ export const selectMainBuildList = createSelector(selectBuildState,
 
 export const selectUnsuccessfulBuildsList = createSelector(selectBuildState,
   (state: BuildsState) => state.unsuccessfulBuildsList)
+
+export const selectBuildsLoadModel = createSelector(selectBuildState,
+  (state: BuildsState) => state.buildsStatus)

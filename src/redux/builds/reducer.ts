@@ -1,14 +1,17 @@
 import { BuildInfo, BuildInfoWithJob, BuildResult, Job } from '../../model'
 import { JobActions, JobActionTypes } from '../jobs/actions'
+import { LoadingModel } from '../loading.model'
 
 export interface BuildsState {
   mainBuildList: Array<BuildInfoWithJob>
   unsuccessfulBuildsList: Array<BuildInfoWithJob>
+  buildsStatus: LoadingModel<any>
 }
 
 export const initialBuildState: BuildsState = {
   mainBuildList: [],
   unsuccessfulBuildsList: [],
+  buildsStatus: LoadingModel.empty(),
 }
 
 const buildInMainList = (job: Job, build: BuildInfo) => {
@@ -17,6 +20,16 @@ const buildInMainList = (job: Job, build: BuildInfo) => {
 
 export function buildsReducer(state: BuildsState = initialBuildState, actions: JobActions): BuildsState {
   switch (actions.type) {
+    case JobActionTypes.LoadJobs:
+      return {
+        ...state,
+        buildsStatus: state.buildsStatus.loading(),
+      }
+    case JobActionTypes.LoadJobsFailed:
+      return {
+        ...state,
+        buildsStatus: LoadingModel.error(actions.error),
+      }
     case JobActionTypes.LoadJobsSucceeded:
       let flattenJobs: Array<BuildInfoWithJob> = []
       flattenJobs = flattenJobs.concat.apply([], actions.jobs.map((folderJob) => folderJob.jobs.map((job) => ({
@@ -52,6 +65,7 @@ export function buildsReducer(state: BuildsState = initialBuildState, actions: J
         ...state,
         mainBuildList,
         unsuccessfulBuildsList,
+        buildsStatus: LoadingModel.success(),
       }
     default:
       return state

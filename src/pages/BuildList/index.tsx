@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import './style.scss'
 import { buildsHawk, BuildsProps } from '../../redux/builds/hawk'
 import BranchStatusCell from '../../components/BranchStatusCell'
-import { GridList } from '@material-ui/core'
+import { CircularProgress, GridList, Typography } from '@material-ui/core'
 
 type Props = {
   isStream: boolean
@@ -11,15 +11,29 @@ type Props = {
 class BuildList extends PureComponent<BuildsProps & Props> {
 
   render(): React.ReactNode {
-    const list = this.props.isStream ? this.props.mainBuildList : this.props.unsuccessfulBuildsList
+    const { isStream, unsuccessfulBuildsList, mainBuildList, buildsModel } = this.props
+    const list = isStream ? mainBuildList : unsuccessfulBuildsList
+    const isEmpty = list.length === 0
     return <>
-      <GridList
+      {buildsModel.isLoading && <div className="build-list-loading-container">
+        <Typography variant="h3"
+                    className="build-list-loading-label"
+                    component="p">Loading Builds</Typography>
+        <CircularProgress size={50} />
+      </div>}
+      {isEmpty && !buildsModel.isLoading && <div>
+        <Typography
+          variant="h1"
+          component="h1"
+        >All Builds Clear!</Typography>
+      </div>}
+      {!isEmpty && !buildsModel.isLoading && <GridList
         cols={2}>
         {list.map((build) =>
           <BranchStatusCell key={`${build.parentJobName}-${build.job.name}-${build.buildInfo.displayName}`}
                             isStream={this.props.isStream}
                             item={build} />)}
-      </GridList>
+      </GridList>}
     </>
   }
 }
