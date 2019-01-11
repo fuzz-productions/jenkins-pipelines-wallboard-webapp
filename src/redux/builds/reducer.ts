@@ -51,6 +51,12 @@ export function buildsReducer(state: BuildsState = initialBuildState, actions: J
             return -1
           } else if (b.buildInfo.result === BuildResult.Failure) {
             return 1
+          } else if (a.buildInfo.result === BuildResult.Unstable && b.buildInfo.result === BuildResult.Unstable) {
+            return b.buildInfo.timestamp - a.buildInfo.timestamp
+          } else if (a.buildInfo.result === BuildResult.Unstable) {
+            return -1
+          } else if (b.buildInfo.result === BuildResult.Unstable) {
+            return 1
           }
           return b.buildInfo.timestamp - a.buildInfo.timestamp
         })
