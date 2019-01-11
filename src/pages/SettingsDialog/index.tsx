@@ -1,36 +1,30 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 import './styles.scss'
 import { MenuOption } from '../../components/MenuWithOptions'
 import { SettingsFilter } from '../../components/SettingsFilter'
 import { orgsHawk, OrgsProps } from '../../redux/organizations/orgs.hawk'
+import { LoadingModel } from '../../redux/loading.model'
+import { OrganizationFolder } from '../../model'
+import { settingsHawk, SettingsProps } from '../../redux/settings/settings.hawk'
 
 interface Props {
   open: boolean
   onClose: Function
 }
 
-interface State {
-  selectedOrg?: MenuOption
-  selectedProjectFilter?: MenuOption
-}
-
-
-class SettingsDialog extends Component<Props & OrgsProps, State> {
-
-  state: State = {}
+class SettingsDialog extends PureComponent<Props & OrgsProps & SettingsProps> {
 
   onClose = () => {
     this.props.onClose()
   }
 
   onSave = () => {
-    const { selectedOrg } = this.state
-    const { selectFolder } = this.props
+    const { selectFolder, currentOrg, currentProject } = this.props
 
     // save options and close
-    if (selectedOrg) {
-      selectFolder(selectedOrg.value)
+    if (currentOrg) {
+      selectFolder(currentOrg.value)
     }
 
     this.onClose()
@@ -41,20 +35,14 @@ class SettingsDialog extends Component<Props & OrgsProps, State> {
   }
 
   selectOrgFolder = (option: MenuOption) => {
-    this.setState({
-      selectedOrg: option,
-    })
+    this.props.selectTempOrg(option)
   }
 
   selectProjectFilter = (option: MenuOption) => {
-    this.setState({
-      selectedProjectFilter: option,
-    })
+    this.props.selectTempProject(option)
   }
 
-  render(): React.ReactNode {
-    const { open, orgModel, currentFolder } = this.props
-    const { selectedOrg, selectedProjectFilter } = this.state
+  extractFolderListing = (orgModel: LoadingModel<Array<OrganizationFolder>>): Array<MenuOption> => {
     let foldersListing: Array<MenuOption> = []
     if (orgModel.isSuccess()) {
       foldersListing = orgModel.success.map((org) => ({
@@ -62,6 +50,10 @@ class SettingsDialog extends Component<Props & OrgsProps, State> {
         value: org.name,
       }))
     }
+    return foldersListing
+  }
+
+  extractSelectedOrganization = (selectedOrg: MenuOption | undefined, foldersListing: Array<MenuOption>, currentFolder: string) => {
     let orgToSelect = selectedOrg
     if (!orgToSelect) {
       orgToSelect = foldersListing.find((org) => org.value === currentFolder)
@@ -69,6 +61,13 @@ class SettingsDialog extends Component<Props & OrgsProps, State> {
         orgToSelect = foldersListing[0]
       }
     }
+    return orgToSelect
+  }
+
+  render(): React.ReactNode {
+    const { open, orgModel, currentFolder, currentOrg, currentProject } = this.props
+    let foldersListing = this.extractFolderListing(orgModel)
+    let orgToSelect = this.extractSelectedOrganization(currentOrg, foldersListing, currentFolder)
     return <Dialog open={open}
                    aria-labelledby="settings-dialog-title"
                    onClose={this.onClose}>
@@ -99,6 +98,7 @@ class SettingsDialog extends Component<Props & OrgsProps, State> {
       </DialogActions>
     </Dialog>
   }
+
 }
 
-export default orgsHawk(SettingsDialog)
+export default settingsHawk(orgsHawk(SettingsDialog))

@@ -5,7 +5,7 @@ export enum OrganizationActionTypes {
   LoadOrganizations = '[Organizations] Load Organizations',
   LoadOrganizationsSucceeded = '[Organizations] Load Organizations Succeeded',
   LoadOrganizationsFailed = '[Organizations] Load Organizations Failed',
-  SelectOrganization = '[Organization] Select Organization'
+  SelectOrganization = '[Organization] Select Organization',
 }
 
 export class LoadOrganizations implements Action {
