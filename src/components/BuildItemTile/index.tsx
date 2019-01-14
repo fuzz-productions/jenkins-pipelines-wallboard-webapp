@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { BuildInfo, BuildInfoWithJob } from '../../model'
+import { BuildInfo, BuildInfoWithJob, Job } from '../../model'
 import './styles.scss'
 import { Card, CardContent, Chip, CircularProgress, GridListTile, Typography } from '@material-ui/core'
 import ReactImageFallback from 'react-image-fallback'
 import { getCauses, userFriendlyFromLatestTime } from '../../model/build_utils'
 import fallbackIcon from '../../assets/ic_launcher.png'
 import { PersonOutline } from '@material-ui/icons'
+import CauseChip from '../CauseChip'
 
 // @ts-ignore
 
@@ -16,15 +17,15 @@ export interface BranchStatusCellProps {
 
 export default class BranchStatusCell extends Component<BranchStatusCellProps> {
 
-  _renderCauseChips = (buildInfo: BuildInfo) => {
+  _renderCauseChips = (buildInfo: BuildInfo, job: Job) => {
     const causes = getCauses(buildInfo)
-    //return causes.map(c => <CauseChip cause={c} />)
-    return []
+    return causes.map(c => <CauseChip cause={c}
+                                      jobName={job.name} />)
   }
 
   render() {
     let { item, isStream } = this.props
-    let { buildInfo } = item
+    let { buildInfo, job } = item
     let { result, building, displayName } = buildInfo
     const statusColorClass = `status-circle-${result && result.toLowerCase() || 'null'}`
 
@@ -57,7 +58,7 @@ export default class BranchStatusCell extends Component<BranchStatusCellProps> {
               className="status-build-timestamp"
               color="textSecondary">{userFriendlyFromLatestTime(buildInfo)}</Typography>
             <div className="status-culprit-chip-container">
-              {this._renderCauseChips(buildInfo)}
+              {this._renderCauseChips(buildInfo, job)}
             </div>
           </div>
           {building && <CircularProgress
