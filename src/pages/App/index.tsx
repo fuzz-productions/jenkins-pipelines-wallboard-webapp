@@ -24,12 +24,16 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
     showSettings: false,
   }
 
+  // every 4 hours auto refresh the page.
+  static PAGE_REFRESH = 1000 * 60 * 60 * 4
+
   componentDidMount() {
     dotenv.config()
     this.props.loadInitialOrganization()
     this.props.loadJobFilter()
     this.props.loadJobs()
-    setInterval(() => this.props.loadJobs(), 10000)
+    setInterval(() => this.props.loadJobs(), 15000)
+    setInterval(() => location.reload(), AppPage.PAGE_REFRESH)
   }
 
   theme = createMuiTheme({
