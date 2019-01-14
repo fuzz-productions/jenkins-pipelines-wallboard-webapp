@@ -1,3 +1,4 @@
+injectDeploymentVars("monitor.fuzzhq.com")
 prettyNode("ubuntu-stock") {
     yarn.installAndSetup()
     yarn.build()
