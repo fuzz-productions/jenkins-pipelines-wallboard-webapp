@@ -80,7 +80,7 @@ const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) =>
 
   // filter by invalid name like noreply or cesar
   const filteredCulprits = buildInfo.culprits.filter((c) => c.fullName !== 'noreply' && c.fullName !== 'caguilar187')
-  return <GridListTile className={!isStream && classes.statusContainerTile}
+  return <GridListTile className={!isStream ? classes.statusContainerTile : ''}
                        style={isStream ? { width: '100%' } : {}}>
     <Card className="status-card">
       {building && <LinearProgress

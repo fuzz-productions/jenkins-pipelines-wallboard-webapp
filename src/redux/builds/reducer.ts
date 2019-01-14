@@ -2,6 +2,7 @@ import { BuildInfo, BuildInfoWithJob, BuildResult, Job } from '../../model'
 import { JobActions, JobActionTypes } from '../jobs/actions'
 import { LoadingModel } from '../loading.model'
 import { BuildActions, BuildActionTypes } from './actions'
+import { OrganizationActions, OrganizationActionTypes } from '../organizations/actions'
 
 export interface BuildsState {
   mainBuildList: Array<BuildInfoWithJob>
@@ -19,7 +20,7 @@ const buildInMainList = (job: Job, build: BuildInfo) => {
   return job.isInQueue || build.result === BuildResult.Success || build.building
 }
 
-export function buildsReducer(state: BuildsState = initialBuildState, actions: JobActions | BuildActions): BuildsState {
+export function buildsReducer(state: BuildsState = initialBuildState, actions: JobActions | BuildActions | OrganizationActions): BuildsState {
   switch (actions.type) {
     case JobActionTypes.LoadJobs:
       return {
@@ -30,6 +31,11 @@ export function buildsReducer(state: BuildsState = initialBuildState, actions: J
       return {
         ...state,
         buildsStatus: LoadingModel.error(actions.error),
+      }
+    case OrganizationActionTypes.SelectOrganization:
+      return {
+        ...state,
+        ...initialBuildState,
       }
     case BuildActionTypes.BuildsReceived:
       const mainBuildList = actions.buildInfo.filter((job) => buildInMainList(job.job, job.job.lastBuild!))

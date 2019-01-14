@@ -16,7 +16,6 @@ export const initialOrganizationState: OrganizationState = {
 export function organizationReducer(state: OrganizationState = initialOrganizationState, action: OrganizationActions): OrganizationState {
   switch (action.type) {
     case OrganizationActionTypes.SelectOrganization:
-      console.log('Selecting org within org reducer', action.folder, state.selectedFolder)
       return {
         ...state,
         selectedFolder: action.folder,

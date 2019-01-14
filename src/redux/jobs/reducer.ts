@@ -22,7 +22,6 @@ export function jobReducer(state: JobsState = initialJobsState, action: JobActio
         jobFilter: action.filter,
       }
     case OrganizationActionTypes.SelectOrganization:
-      console.log('Selecting org', action.folder, state.jobFilter)
       return {
         ...state,
         jobs: LoadingModel.empty(),
