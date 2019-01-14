@@ -70,10 +70,10 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
             </Toolbar>
           </AppBar>
           <div className="app-column-container">
-            <MainColumn>
+            <MainColumn flex={1}>
               <BuildList isStream={true} />
             </MainColumn>
-            <MainColumn flex={2}>
+            <MainColumn flex={3}>
               <div className="app-header-container">
                 <Error color="primary"
                        fontSize="large" />
