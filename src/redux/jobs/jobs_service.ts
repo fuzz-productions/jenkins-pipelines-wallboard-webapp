@@ -36,6 +36,12 @@ export class JobService {
     if (jobFolder === 'android-projects' || jobFolder === 'ios-projects') {
       const mobileJobs = await this._fetchJobs('mobile-projects')
       resolvedJobs = resolvedJobs.concat(mobileJobs)
+    } else if (jobFolder === 'web-projects') {
+      const webJobs = await this._fetchJobs('web-backends')
+      resolvedJobs = resolvedJobs.concat(webJobs)
+    } else if (jobFolder === 'web-backends') {
+      const webJobs = await this._fetchJobs('web-projects')
+      resolvedJobs = resolvedJobs.concat(webJobs)
     }
     return resolvedJobs
   }
