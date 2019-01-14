@@ -23,15 +23,13 @@
 
   &-header-container {
     display: flex;
-    position: relative;
-    width: 100%;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    margin-left: 16px;
   }
 
   &-header-text {
-    padding-bottom: 16px;
-    padding-top: 16px;
+    padding: 16px;
     color: $failure !important;
   }
 

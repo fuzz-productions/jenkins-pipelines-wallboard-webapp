@@ -1,4 +1,4 @@
-import { BuildResult, FolderJob, Job } from './index'
+import { BuildInfoWithJob, BuildResult, FolderJob, Job } from './index'
 
 const nameStringRegex = new RegExp('( android | Android| ios| Ios)')
 
@@ -16,6 +16,15 @@ export const stableBranches = (job: FolderJob): number => {
   return job.jobs
     .reduce((sum, current) => current.lastBuild && current.lastBuild.result === BuildResult.Success ? sum + 1 : sum, 0)
 }
+
+/**
+ * Returns failed builds count
+ */
+export const failedBuilds = (jobs: BuildInfoWithJob[]): number => {
+  return (jobs || [])
+    .reduce((sum, current) => current.job.lastBuild && current.job.lastBuild.result === BuildResult.Failure ? sum + 1 : sum, 0)
+}
+
 
 export const getUIName = (name: string): string => {
   return name.replace('-', ' ')

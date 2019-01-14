@@ -6,18 +6,19 @@ import { jobsHawk, JobsProps } from '../../redux/jobs/hawk'
 import MainColumn from '../../components/MainColumn'
 import BuildList from '../BuildList'
 import { AppBar, createMuiTheme, IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core'
-import { Settings } from '@material-ui/icons'
+import { Error, Settings } from '@material-ui/icons'
 import SettingsDialog from '../SettingsDialog'
 import { JobConstants } from '../../redux/jobs/constants'
 import { orgsHawk, OrgsProps } from '../../redux/organizations/orgs.hawk'
 import { getOrgUIName } from '../../model/organization_utils'
-import { getUIName } from '../../model/job_utils'
+import { failedBuilds, getUIName } from '../../model/job_utils'
+import { buildsHawk, BuildsProps } from '../../redux/builds/hawk'
 
 interface State {
   showSettings: boolean
 }
 
-class AppPage extends Component<JobsProps & OrgsProps, State> {
+class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
 
   state: State = {
     showSettings: false,
@@ -46,6 +47,8 @@ class AppPage extends Component<JobsProps & OrgsProps, State> {
   }
 
   render() {
+    const { jobFilter, organizationFolder, unsuccessfulBuildsList } = this.props
+    const failedBuildCount = failedBuilds(unsuccessfulBuildsList)
     return (
       <MuiThemeProvider theme={this.theme}>
         <div className="app-container">
@@ -55,7 +58,7 @@ class AppPage extends Component<JobsProps & OrgsProps, State> {
                           component="h2"
                           color="inherit"
                           className="app-toolbar-text">{getOrgUIName(this.props.organizationFolder)}
-                {this.props.jobFilter && this.props.jobFilter !== JobConstants.FilterViewAll && ` - ${getUIName(this.props.jobFilter)}`}</Typography>
+                {jobFilter && jobFilter !== JobConstants.FilterViewAll && ` - ${getUIName(jobFilter)}`}</Typography>
               <IconButton color="inherit"
                           onClick={this.showSettingsMenu}>
                 <Settings fontSize="large" />
@@ -67,9 +70,15 @@ class AppPage extends Component<JobsProps & OrgsProps, State> {
               <BuildList isStream={true} />
             </MainColumn>
             <MainColumn flex={2}>
-              <Typography variant="h4"
-                          component="h4"
-                          className="app-header-text">Attention Zone</Typography>
+              <div className="app-header-container">
+                <Error color="primary"
+                       fontSize="large" />
+                <Typography variant="h4"
+                            component="h4"
+                            className="app-header-text">Attention Zone
+                  {failedBuildCount > 0 && ` - ${failedBuildCount} Build${failedBuildCount > 1 ? 's' : ''} Need Attention`}
+                </Typography>
+              </div>
               <BuildList isStream={false} />
             </MainColumn>
           </div>
@@ -81,4 +90,4 @@ class AppPage extends Component<JobsProps & OrgsProps, State> {
   }
 }
 
-export default orgsHawk(jobsHawk(AppPage))
+export default buildsHawk(orgsHawk(jobsHawk(AppPage)))
