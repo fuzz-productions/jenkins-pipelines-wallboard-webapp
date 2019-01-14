@@ -21,6 +21,8 @@ export interface BuildInfo {
   number: number
   culprits: Array<Culprit>
   actions: Array<BranchAction>
+  duration: number
+  estimatedDuration: number
 }
 
 export interface BranchAction {

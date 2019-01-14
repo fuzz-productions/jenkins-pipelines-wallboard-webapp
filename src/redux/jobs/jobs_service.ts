@@ -17,7 +17,7 @@ export class JobService {
   jobActionsPath = (): string => 'actions%5BobjectDisplayName,objectUrl%5D'
 
   buildsPath = (name: string = 'builds'): string =>
-    `${name}%5Bnumber,description,${this.actionsPath()},${this.culpritsPath()},url,building,result,${this.changeSetPath()},${this.changeSetPath('changeSets')},timestamp,displayName%5D`
+    `${name}%5Bnumber,description,${this.actionsPath()},${this.culpritsPath()},url,building,duration,estimatedDuration,result,${this.changeSetPath()},${this.changeSetPath('changeSets')},timestamp,displayName%5D`
 
   jobParamsPath = (): string =>
     'nextBuildNumber,inQueue,name,url,description,displayName,buildable'

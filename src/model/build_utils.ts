@@ -3,11 +3,11 @@ import { differenceInDays, distanceInWordsToNow, format } from 'date-fns'
 
 export const userFriendlyFromLatestTime = (build: BuildInfo) => {
   const buildDate = new Date(build.timestamp)
-  const difference = differenceInDays(buildDate, new Date())
-  if (difference === 0) {
-    return distanceInWordsToNow(buildDate)
+  const difference = Math.abs(differenceInDays(buildDate, new Date()))
+  if (difference <= 7) {
+    return `Built ${distanceInWordsToNow(buildDate)} ago`
   } else {
-    return format(buildDate, 'MM/DD/YYYY hh:mm A')
+    return `Last Built ${format(buildDate, 'MM/DD/YYYY hh:mm A')}`
   }
 }
 

@@ -1,21 +1,13 @@
 import React from 'react'
-import { BuildInfo, BuildInfoWithJob, Job } from '../../model'
+import { BuildInfo, BuildInfoWithJob, Culprit, Job } from '../../model'
 import './styles.scss'
-import {
-  Card,
-  CardContent,
-  Chip,
-  CircularProgress,
-  GridListTile,
-  Theme,
-  Typography,
-  withStyles,
-} from '@material-ui/core'
+import { Card, CardContent, Chip, GridListTile, LinearProgress, Theme, Typography, withStyles } from '@material-ui/core'
 import ReactImageFallback from 'react-image-fallback'
 import { getCauses, userFriendlyFromLatestTime } from '../../model/build_utils'
 import fallbackIcon from '../../assets/ic_launcher.png'
 import { PersonOutline } from '@material-ui/icons'
 import CauseChip from '../CauseChip'
+import { distanceInWords, distanceInWordsToNow } from 'date-fns'
 
 // @ts-ignore
 
@@ -46,6 +38,31 @@ const styles = (theme: Theme) => ({
   },
 })
 
+const renderCulpritChips = (filteredCulprits: Array<Culprit>) => filteredCulprits.length > 0 &&
+  <div className="status-culprit-chip-container">
+    <PersonOutline />
+    {filteredCulprits.map((c) => (
+      <Chip className="status-culprit-chip"
+            key={c.fullName}
+            label={c.fullName} />
+    ))}
+  </div>
+
+const calculatePercentBuilt = (buildInfo: BuildInfo) => {
+  let { estimatedDuration, timestamp } = buildInfo
+  const timeSince = Date.now() - timestamp
+  let percent = (timeSince) / estimatedDuration
+  console.log('Percent', timeSince, percent)
+  return percent * 100
+}
+
+const activeBuildTime = (buildInfo: BuildInfo) => {
+  const buildDate = new Date(buildInfo.timestamp)
+  const distance = distanceInWordsToNow(buildDate)
+  const remaining = distanceInWords(new Date(buildInfo.timestamp + buildInfo.estimatedDuration), Date.now())
+  return `Started ${distance} ago. Approx ${remaining} left.`
+}
+
 const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) => {
   let { buildInfo, job } = item
   let { result, building, displayName } = buildInfo
@@ -56,6 +73,11 @@ const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) =>
   return <GridListTile className={!isStream && classes.statusContainerTile}
                        style={isStream ? { width: '100%' } : {}}>
     <Card className="status-card">
+      {building && <LinearProgress
+        color="primary"
+        value={calculatePercentBuilt(buildInfo)}
+        variant="determinate"
+        className="status-progress" />}
       <CardContent className={`status-card-container ${statusColorClass}-outline`}>
         <div className="status-job-image-container">
           <ReactImageFallback
@@ -69,25 +91,17 @@ const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) =>
           <Typography variant="h2"
                       className="status-job-name status-job-name-header"
                       component="p">{displayName} - {item.job.displayName}</Typography>
-          <Typography
+          {!building && <Typography
             className="status-build-timestamp"
-            color="textSecondary">{userFriendlyFromLatestTime(buildInfo)}</Typography>
-          {filteredCulprits.length > 0 && <div className="status-culprit-chip-container">
-            <PersonOutline />
-            {filteredCulprits.map((c) => (
-              <Chip className="status-culprit-chip"
-                    key={c.fullName}
-                    label={c.fullName} />
-            ))}
-          </div>}
+            color="textSecondary">{userFriendlyFromLatestTime(buildInfo)}</Typography>}
+          {building && <Typography
+            className="status-build-timestamp"
+            color="textSecondary">{activeBuildTime(buildInfo)}</Typography>}
+          {renderCulpritChips(filteredCulprits)}
           <div className="status-cause-chip-container">
             {renderCauseChips(buildInfo, job)}
           </div>
         </div>
-        {building && <CircularProgress
-          color="primary"
-          size={75}
-          className="status-progress" />}
       </CardContent>
     </Card>
   </GridListTile>
