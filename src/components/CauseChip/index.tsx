@@ -7,6 +7,7 @@ import PullRequestIcon from '../../icons/PullRequestIcon'
 interface Props {
   cause: BranchEventCause
   jobName: string
+  className?: string
 }
 
 const EVENT_PUSH = 'push event to branch'
@@ -49,10 +50,11 @@ const labelForCause = (cause: BranchEventCause, jobName: string) => {
   return cause.shortDescription
 }
 
-export default function CauseChip({ cause, jobName }: Props) {
+export default function CauseChip({ cause, jobName, ...restProps }: Props) {
   const Icon = iconForCause(cause)
   const label = labelForCause(cause, jobName)
   return <Chip avatar={Icon}
                label={label}
+               {...restProps}
   />
 }

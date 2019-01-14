@@ -19,7 +19,8 @@ export default class BranchStatusCell extends Component<BranchStatusCellProps> {
 
   _renderCauseChips = (buildInfo: BuildInfo, job: Job) => {
     const causes = getCauses(buildInfo)
-    return causes.map(c => <CauseChip cause={c}
+    return causes.map(c => <CauseChip className="status-cause-chip"
+                                      cause={c}
                                       jobName={job.name} />)
   }
 
@@ -46,6 +47,9 @@ export default class BranchStatusCell extends Component<BranchStatusCellProps> {
             <Typography variant="h2"
                         className="status-job-name status-job-name-header"
                         component="p">{displayName} - {item.job.displayName}</Typography>
+            <Typography
+              className="status-build-timestamp"
+              color="textSecondary">{userFriendlyFromLatestTime(buildInfo)}</Typography>
             {filteredCulprits.length > 0 && <div className="status-culprit-chip-container">
               <PersonOutline />
               {filteredCulprits.map((c) => (
@@ -54,10 +58,7 @@ export default class BranchStatusCell extends Component<BranchStatusCellProps> {
                       label={c.fullName} />
               ))}
             </div>}
-            <Typography
-              className="status-build-timestamp"
-              color="textSecondary">{userFriendlyFromLatestTime(buildInfo)}</Typography>
-            <div className="status-culprit-chip-container">
+            <div className="status-cause-chip-container">
               {this._renderCauseChips(buildInfo, job)}
             </div>
           </div>
