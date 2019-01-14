@@ -26,11 +26,29 @@ export class JobService {
     `displayName,name,url,jobs%5B${this.jobParamsPath()},jobs%5B${this.jobActionsPath()},name,displayName,url,buildable,${this.buildsPath('lastBuild')}%5D%5D`
 
 
+  /**
+   * Fetches jobs for a specific folder. will fetch "mobile-projects" for android or ios projects.
+   * @param jobFolder the job folder from jenkins to load.
+   */
   fetchJobs = async (jobFolder: string): Promise<Array<FolderJob>> => {
+    let resolvedJobs = await this._fetchJobs(jobFolder)
+    // load mobile if we're loading android or ios projects too
+    if (jobFolder === 'android-projects' || jobFolder === 'ios-projects') {
+      const mobileJobs = await this._fetchJobs('mobile-projects')
+      resolvedJobs = resolvedJobs.concat(mobileJobs)
+    }
+    return resolvedJobs
+  }
+
+  /**
+   * Internal method that does the call directly.
+   * @private
+   */
+  _fetchJobs = async (jobFolder: string): Promise<Array<FolderJob>> => {
     const jobs = await axios.get(
       `https://jenkins.fuzzhq.com/job/${jobFolder}/api/json?pretty=true&depth=3&tree=${this.newJobsParamsPath()}`,
       JobService.requestConfig())
-    return jobs.data.jobs
+    return jobs.data.jobs || []
   }
 
   static requestConfig() {
