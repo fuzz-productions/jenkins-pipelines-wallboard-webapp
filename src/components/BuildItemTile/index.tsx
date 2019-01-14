@@ -3,11 +3,11 @@ import { BuildInfo, BuildInfoWithJob, Culprit, Job } from '../../model'
 import './styles.scss'
 import { Card, CardContent, Chip, GridListTile, LinearProgress, Theme, Typography, withStyles } from '@material-ui/core'
 import ReactImageFallback from 'react-image-fallback'
-import { getCauses, userFriendlyFromLatestTime } from '../../model/build_utils'
+import { getCauses } from '../../model/build_utils'
 import fallbackIcon from '../../assets/ic_launcher.png'
 import { PersonOutline } from '@material-ui/icons'
 import CauseChip from '../CauseChip'
-import { distanceInWords, distanceInWordsToNow } from 'date-fns'
+import { differenceInDays, distanceInWords, distanceInWordsToNow, format } from 'date-fns'
 
 // @ts-ignore
 
@@ -52,7 +52,6 @@ const calculatePercentBuilt = (buildInfo: BuildInfo) => {
   let { estimatedDuration, timestamp } = buildInfo
   const timeSince = Date.now() - timestamp
   let percent = (timeSince) / estimatedDuration
-  console.log('Percent', timeSince, percent)
   return percent * 100
 }
 
@@ -61,6 +60,17 @@ const activeBuildTime = (buildInfo: BuildInfo) => {
   const distance = distanceInWordsToNow(buildDate)
   const remaining = distanceInWords(new Date(buildInfo.timestamp + buildInfo.estimatedDuration), Date.now())
   return `Started ${distance} ago. Approx ${remaining} left.`
+}
+
+export const userFriendlyFromLatestTime = (build: BuildInfo) => {
+  const buildDate = new Date(build.timestamp)
+  const difference = Math.abs(differenceInDays(buildDate, new Date()))
+  const durationText = distanceInWords(buildDate, new Date(build.timestamp + build.duration))
+  if (difference <= 7) {
+    return `Built ${distanceInWordsToNow(buildDate)} ago. Took ${durationText}`
+  } else {
+    return `Last Built ${format(buildDate, 'M/D/YYYY h:m A')}. Took ${durationText}`
+  }
 }
 
 const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) => {
