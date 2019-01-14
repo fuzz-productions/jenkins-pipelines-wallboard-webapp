@@ -1,4 +1,4 @@
-import { BuildInfo } from './index'
+import { BranchEventCause, BuildInfo } from './index'
 import { differenceInDays, distanceInWordsToNow, format } from 'date-fns'
 
 export const userFriendlyFromLatestTime = (build: BuildInfo) => {
@@ -9,4 +9,9 @@ export const userFriendlyFromLatestTime = (build: BuildInfo) => {
   } else {
     return format(buildDate, 'MM/DD/YYYY hh:mm A')
   }
+}
+
+export const getCauses = (build: BuildInfo): Array<BranchEventCause> => {
+  return build.actions.filter((a) => !!a.causes)
+    .reduce((output, c) => output.concat(c.causes!), [] as Array<BranchEventCause>)
 }

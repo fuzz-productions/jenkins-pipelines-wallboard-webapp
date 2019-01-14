@@ -20,6 +20,15 @@ export interface BuildInfo {
   building: boolean
   number: number
   culprits: Array<Culprit>
+  actions: Array<BranchAction>
+}
+
+export interface BranchAction {
+  causes?: Array<BranchEventCause>
+}
+
+export interface BranchEventCause {
+  shortDescription: string
 }
 
 export interface Culprit {

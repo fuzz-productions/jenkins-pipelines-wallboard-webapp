@@ -52,11 +52,17 @@ export class JobService {
   }
 
   static requestConfig() {
-    return {
-      auth: {
-        username: process.env.REACT_APP_USERNAME || '',
-        password: process.env.REACT_APP_PASSWORD || '',
-      },
+    const username = process.env.REACT_APP_USERNAME
+    const password = process.env.REACT_APP_PASSWORD
+    if (!!username && !!password) {
+      return {
+        auth: {
+          username: username || '',
+          password: password || '',
+        },
+      }
+    } else {
+      return {}
     }
   }
 }
