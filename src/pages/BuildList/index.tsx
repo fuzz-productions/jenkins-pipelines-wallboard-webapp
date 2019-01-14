@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import './style.scss'
 import { buildsHawk, BuildsProps } from '../../redux/builds/hawk'
-import BranchStatusCell from '../../components/BuildItemTile'
+import BuildItemTile from '../../components/BuildItemTile'
 import { CircularProgress, GridList, Typography } from '@material-ui/core'
 
 type Props = {
@@ -30,9 +30,9 @@ class BuildList extends PureComponent<BuildsProps & Props> {
       {!isEmpty && <GridList
         cols={2}>
         {list.map((build) =>
-          <BranchStatusCell key={`${build.parentJobName}-${build.job.name}-${build.buildInfo.displayName}`}
-                            isStream={this.props.isStream}
-                            item={build} />)}
+          <BuildItemTile key={`${build.parentJobName}-${build.job.name}-${build.buildInfo.displayName}`}
+                         isStream={this.props.isStream}
+                         item={build} />)}
       </GridList>}
     </>
   }

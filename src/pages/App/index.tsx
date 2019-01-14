@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 import React, { Component } from 'react'
 import './style.scss'
 import { jobsHawk, JobsProps } from '../../redux/jobs/hawk'
-import MainColumn from '../../components/MainColumn'
 import BuildList from '../BuildList'
 import { AppBar, createMuiTheme, IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core'
 import { Error, Settings } from '@material-ui/icons'
@@ -70,10 +69,12 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
             </Toolbar>
           </AppBar>
           <div className="app-column-container">
-            <MainColumn flex={1}>
+            <div className="app-column app-column-small"
+                 style={{ flex: 1 }}>
               <BuildList isStream={true} />
-            </MainColumn>
-            <MainColumn flex={3}>
+            </div>
+            <div className="app-column"
+                 style={{ flex: 3 }}>
               <div className="app-header-container">
                 <Error color="primary"
                        fontSize="large" />
@@ -84,7 +85,7 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
                 </Typography>
               </div>
               <BuildList isStream={false} />
-            </MainColumn>
+            </div>
           </div>
         </div>
         <SettingsDialog open={this.state.showSettings}

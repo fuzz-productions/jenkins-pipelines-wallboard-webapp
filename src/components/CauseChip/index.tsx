@@ -10,13 +10,13 @@ interface Props {
   className?: string
 }
 
-const EVENT_PUSH = 'push event to branch'
-const EVENT_STARTED_BY_USER = 'started by user'
-const EVENT_REPLAYED = 'replayed'
-const EVENT_PULL_REQUEST = 'pull request'
+const EVENT_PUSH = 'Push event to branch'
+const EVENT_STARTED_BY_USER = 'Started by user'
+const EVENT_REPLAYED = 'Replayed'
+const EVENT_PULL_REQUEST = 'Pull request'
 
 const iconForCause = (cause: BranchEventCause) => {
-  const desc = cause.shortDescription.toLowerCase().trim()
+  const desc = cause.shortDescription.trim()
   if (desc.startsWith(EVENT_PUSH)) {
     // push events
     return <ArrowRightAlt />
@@ -32,19 +32,17 @@ const iconForCause = (cause: BranchEventCause) => {
 
 
 const labelForCause = (cause: BranchEventCause, jobName: string) => {
-  const desc = cause.shortDescription.toLowerCase().trim()
+  const desc = cause.shortDescription.trim()
   if (desc.startsWith(EVENT_PUSH)) {
     // push events
-    const text = desc.replace(EVENT_PUSH, '').replace(jobName.toLowerCase(), 'push').trim()
-    console.log('Text replace', text, jobName)
-    return text
+    return desc.replace(EVENT_PUSH, '').replace(jobName.toLowerCase(), 'push').trim()
   } else if (desc.startsWith(EVENT_STARTED_BY_USER)) {
     // user trigger
     return desc.replace(EVENT_STARTED_BY_USER, '').trim()
   } else if (desc.startsWith(EVENT_REPLAYED)) {
     return desc.replace(EVENT_REPLAYED, '').trim()
   } else if (desc.startsWith(EVENT_PULL_REQUEST)) {
-    return 'new pull request'
+    return 'New pull request'
   }
 
   return cause.shortDescription
