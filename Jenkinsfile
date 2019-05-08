@@ -1,5 +1,5 @@
 injectDeploymentVars("monitor.fuzzhq.com")
-prettyNode("ubuntu-stock") {
+prettyNode("jenkins-ecs") {
     yarn.installAndSetup()
     yarn.build()
     if (env.IS_PRODUCTION == "true") {
