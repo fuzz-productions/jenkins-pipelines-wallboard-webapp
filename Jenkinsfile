@@ -1,6 +1,6 @@
 injectDeploymentVars("monitor.fuzzhq.com")
 prettyNode("jenkins-ecs") {
-    yarn.installAndSetup()
+    yarn.installAndSetup("11.15")
     yarn.build()
     if (env.IS_PRODUCTION == "true") {
         postStage("Deploy") {
