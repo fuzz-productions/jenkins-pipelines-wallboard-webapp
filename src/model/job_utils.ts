@@ -6,7 +6,10 @@ export const jobIsRoot = (job: Job): boolean => {
   const names = ['dev',
     'develop',
     'development',
-    'master']
+    'master',
+    'production',
+    'staging',
+    'sandbox']
   return !!names.find((name) => name === job.name)
 }
 /**
