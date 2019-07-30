@@ -6,7 +6,7 @@ import { selectBuildsLoadModel, selectMainBuildList, selectUnsuccessfulBuildsLis
 import { BuildInfoWithJob } from '../../model'
 import { LoadingModel } from '../loading.model'
 
-export type BuildsProps = {
+export interface BuildsProps {
   mainBuildList: Array<BuildInfoWithJob>
   unsuccessfulBuildsList: Array<BuildInfoWithJob>
   buildsModel: LoadingModel<any>,

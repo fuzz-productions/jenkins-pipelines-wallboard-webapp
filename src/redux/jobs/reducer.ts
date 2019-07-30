@@ -37,10 +37,10 @@ export function jobReducer(state: JobsState = initialJobsState, action: JobActio
         jobs: LoadingModel.error(action.error),
       }
     case JobActionTypes.LoadJobsSucceeded:
-      let { jobs } = action
-      let projectList = []
-      for (const key in jobs) {
-        const value = jobs[key]
+      const { jobs } = action
+      const projectList = []
+      for (const job of jobs) {
+        const value = job
         value.jobs.sort((a, b) => {
           if (jobIsRoot(a)) {
             return -1
@@ -54,7 +54,7 @@ export function jobReducer(state: JobsState = initialJobsState, action: JobActio
           }
           return 1
         })
-        value.jobs = value.jobs.filter((job) => job.buildable)
+        value.jobs = value.jobs.filter(j => j.buildable)
         projectList.push(value)
       }
       projectList.sort((a, b) => {

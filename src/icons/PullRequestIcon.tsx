@@ -1,8 +1,9 @@
+/* tslint:disable:max-line-length */
 import React from 'react'
 import { SvgIcon } from '@material-ui/core'
 
 export default function PullRequestIcon({ ...props }: any) {
-  return <SvgIcon viewBox="0 0 32 32" {...props}>
+  return <SvgIcon viewBox='0 0 32 32' {...props}>
     <path
       style={{
         textIndent: 0,

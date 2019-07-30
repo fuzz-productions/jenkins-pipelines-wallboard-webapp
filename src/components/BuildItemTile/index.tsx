@@ -21,7 +21,7 @@ const getIconImage = (item: BuildInfoWithJob) => `https://jenkins.fuzzhq.com/vie
 
 const renderCauseChips = (buildInfo: BuildInfo, job: Job) => {
   const causes = getCauses(buildInfo)
-  return causes.map(c => <CauseChip className="status-cause-chip"
+  return causes.map(c => <CauseChip className='status-cause-chip'
                                     cause={c}
                                     key={c.shortDescription}
                                     jobName={job.name} />)
@@ -39,19 +39,19 @@ const styles = (theme: Theme) => ({
 })
 
 const renderCulpritChips = (filteredCulprits: Array<Culprit>) => filteredCulprits.length > 0 &&
-  <div className="status-culprit-chip-container">
+  <div className='status-culprit-chip-container'>
     <PersonOutline />
     {filteredCulprits.map((c) => (
-      <Chip className="status-culprit-chip"
+      <Chip className='status-culprit-chip'
             key={c.fullName}
             label={c.fullName} />
     ))}
   </div>
 
 const calculatePercentBuilt = (buildInfo: BuildInfo) => {
-  let { estimatedDuration, timestamp } = buildInfo
+  const { estimatedDuration, timestamp } = buildInfo
   const timeSince = Date.now() - timestamp
-  let percent = (timeSince) / estimatedDuration
+  const percent = (timeSince) / estimatedDuration
   return percent * 100
 }
 
@@ -74,41 +74,41 @@ export const userFriendlyFromLatestTime = (build: BuildInfo) => {
 }
 
 const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) => {
-  let { buildInfo, job } = item
-  let { result, building, displayName } = buildInfo
+  const { buildInfo, job } = item
+  const { result, building, displayName } = buildInfo
   const statusColorClass = `status-circle-${result && result.toLowerCase() || 'null'}`
 
   // filter by invalid name like noreply or cesar
   const filteredCulprits = buildInfo.culprits.filter((c) => c.fullName !== 'noreply' && c.fullName !== 'caguilar187')
   return <GridListTile className={!isStream ? classes.statusContainerTile : ''}
                        style={isStream ? { width: '100%' } : {}}>
-    <Card className="status-card">
+    <Card className='status-card'>
       {building && <LinearProgress
-        color="primary"
+        color='primary'
         value={calculatePercentBuilt(buildInfo)}
-        variant="determinate"
-        className="status-progress" />}
+        variant='determinate'
+        className='status-progress' />}
       <CardContent className={`status-card-container ${statusColorClass}-outline`}>
-        <div className="status-job-image-container">
+        <div className='status-job-image-container'>
           <ReactImageFallback
             className={`status-job-image ${building && 'status-job-image-opaque'}`}
             fallbackImage={fallbackIcon}
             src={getIconImage(item)}
           />
         </div>
-        <div className="status-info-chunk"
+        <div className='status-info-chunk'
              style={{ flex: 1 }}>
-          <Typography variant="h2"
-                      className="status-job-name status-job-name-header"
-                      component="p">{displayName} - {item.job.displayName}</Typography>
+          <Typography variant='h2'
+                      className='status-job-name status-job-name-header'
+                      component='p'>{displayName} - {item.job.displayName}</Typography>
           {!building && <Typography
-            className="status-build-timestamp"
-            color="textSecondary">{userFriendlyFromLatestTime(buildInfo)}</Typography>}
+            className='status-build-timestamp'
+            color='textSecondary'>{userFriendlyFromLatestTime(buildInfo)}</Typography>}
           {building && <Typography
-            className="status-build-timestamp"
-            color="textSecondary">{activeBuildTime(buildInfo)}</Typography>}
+            className='status-build-timestamp'
+            color='textSecondary'>{activeBuildTime(buildInfo)}</Typography>}
           {renderCulpritChips(filteredCulprits)}
-          <div className="status-cause-chip-container">
+          <div className='status-cause-chip-container'>
             {renderCauseChips(buildInfo, job)}
           </div>
         </div>

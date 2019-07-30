@@ -40,9 +40,9 @@ export class MenuWithOptions extends Component<MenuWithOptionProps, State> {
   }
 
   render(): React.ReactNode {
-    let { options, selectedOption } = this.props
-    let { anchorEl } = this.state
-    return <div className="menu-opts-container">
+    const { options, selectedOption } = this.props
+    const { anchorEl } = this.state
+    return <div className='menu-opts-container'>
       <Typography onClick={this.handleClickText}>
         {selectedOption && selectedOption.display}
         {!selectedOption && 'Choose An Option'}

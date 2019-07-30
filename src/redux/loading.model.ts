@@ -32,7 +32,8 @@ export class LoadingModel<T> {
   isSuccess = () => this.hasSuccess
   isError = () => this.hasError
 
-  public toString = () => `Loading: ${this.isLoading}, Success: ${this.hasSuccess}:**${this._success}**, Error: ${this.hasError}:${this.error}`
+  public toString = () => `Loading: ${this.isLoading}, Success: ${this.hasSuccess}:**${this._success}**, ` +
+    `Error: ${this.hasError}:${this.error}`
 }
 
 /**

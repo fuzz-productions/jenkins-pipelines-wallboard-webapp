@@ -64,7 +64,9 @@ class SettingsDialog extends PureComponent<Props> {
     return foldersListing
   }
 
-  extractSelectedOrganization = (selectedOrg: MenuOption | undefined, foldersListing: Array<MenuOption>, currentFolder: string): MenuOption | undefined => {
+  extractSelectedOrganization = (selectedOrg: MenuOption | undefined,
+                                 foldersListing: Array<MenuOption>,
+                                 currentFolder: string): MenuOption | undefined => {
     let orgToSelect = selectedOrg
     if (!orgToSelect) {
       orgToSelect = foldersListing.find((org) => org.value === currentFolder)
@@ -90,7 +92,9 @@ class SettingsDialog extends PureComponent<Props> {
     return projectsListing
   }
 
-  extractSelectedProjectFilter = (selectedProject: MenuOption | undefined, projects: Array<MenuOption>, currentProject?: string): MenuOption | undefined => {
+  extractSelectedProjectFilter = (selectedProject: MenuOption | undefined,
+                                  projects: Array<MenuOption>,
+                                  currentProject?: string): MenuOption | undefined => {
     let projectToSelect = selectedProject
     if (!projectToSelect) {
       if (currentProject) {
@@ -105,34 +109,34 @@ class SettingsDialog extends PureComponent<Props> {
 
   render(): React.ReactNode {
     const { open, orgModel, currentFolder, currentOrg, currentProject, projectsModel, jobFilter } = this.props
-    let foldersListing = this.extractFolderListing(orgModel)
-    let projectsListing = this.extractProjectListing(projectsModel)
-    let orgToSelect = this.extractSelectedOrganization(currentOrg, foldersListing, currentFolder)
-    let projectToSelect = this.extractSelectedProjectFilter(currentProject, projectsListing, jobFilter)
+    const foldersListing = this.extractFolderListing(orgModel)
+    const projectsListing = this.extractProjectListing(projectsModel)
+    const orgToSelect = this.extractSelectedOrganization(currentOrg, foldersListing, currentFolder)
+    const projectToSelect = this.extractSelectedProjectFilter(currentProject, projectsListing, jobFilter)
     return <Dialog open={open}
-                   aria-labelledby="settings-dialog-title"
+                   aria-labelledby='settings-dialog-title'
                    onClose={this.onClose}>
-      <DialogTitle id="settings-dialog-title">Select Filters</DialogTitle>
+      <DialogTitle id='settings-dialog-title'>Select Filters</DialogTitle>
       <DialogContent>
         <SettingsFilter
           selectedOption={orgToSelect}
           onSelected={this.selectOrgFolder}
           options={foldersListing}
-          label="Projects Folder"
+          label='Projects Folder'
         />
         <SettingsFilter
           selectedOption={projectToSelect}
           onSelected={this.selectProjectFilter}
           options={projectsListing}
-          label="Select Project"
+          label='Select Project'
         />
       </DialogContent>
       <DialogActions>
-        <Button color="primary"
+        <Button color='primary'
                 onClick={this.onSave}>
           Save
         </Button>
-        <Button color="secondary"
+        <Button color='secondary'
                 onClick={this.onClose}>
           Cancel
         </Button>
