@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import './styles.scss'
 import { Menu, MenuItem, Typography } from '@material-ui/core'
+import styled from 'styled-components'
 
 export interface MenuOption {
   display: string
@@ -16,6 +16,10 @@ export interface MenuWithOptionProps {
 interface State {
   anchorEl: any
 }
+
+const StyledMenuOptsContainer = styled.div`
+  max-width: 360px;
+`
 
 export class MenuWithOptions extends Component<MenuWithOptionProps, State> {
 
@@ -40,9 +44,9 @@ export class MenuWithOptions extends Component<MenuWithOptionProps, State> {
   }
 
   render(): React.ReactNode {
-    let { options, selectedOption } = this.props
-    let { anchorEl } = this.state
-    return <div className="menu-opts-container">
+    const { options, selectedOption } = this.props
+    const { anchorEl } = this.state
+    return <StyledMenuOptsContainer>
       <Typography onClick={this.handleClickText}>
         {selectedOption && selectedOption.display}
         {!selectedOption && 'Choose An Option'}
@@ -59,6 +63,6 @@ export class MenuWithOptions extends Component<MenuWithOptionProps, State> {
 
         ))}
       </Menu>
-    </div>
+    </StyledMenuOptsContainer>
   }
 }

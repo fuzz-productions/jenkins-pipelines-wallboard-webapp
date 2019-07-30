@@ -20,7 +20,8 @@ const buildInMainList = (job: Job, build: BuildInfo) => {
   return job.isInQueue || build.result === BuildResult.Success || build.building
 }
 
-export function buildsReducer(state: BuildsState = initialBuildState, actions: JobActions | BuildActions | OrganizationActions): BuildsState {
+export function buildsReducer(state: BuildsState = initialBuildState,
+                              actions: JobActions | BuildActions | OrganizationActions): BuildsState {
   switch (actions.type) {
     case JobActionTypes.LoadJobs:
       return {

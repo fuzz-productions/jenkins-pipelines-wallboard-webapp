@@ -7,7 +7,7 @@ import React from 'react'
 import { selectOrgModel, selectSelectedFolder } from './selectors'
 import { LoadOrganizationFolder, LoadOrganizations, SelectOrganization } from './actions'
 
-export type OrgsProps = {
+export interface OrgsProps {
   orgModel: LoadingModel<Array<OrganizationFolder>>
   currentFolder: string
   selectFolder: (folder: string) => void

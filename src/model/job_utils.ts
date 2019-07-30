@@ -7,7 +7,7 @@ export const jobIsRoot = (job: Job): boolean => {
     'develop',
     'development',
     'master']
-  return !!names.find((name) => name == job.name)
+  return !!names.find((name) => name === job.name)
 }
 /**
  * Returns stable branches count
@@ -25,6 +25,13 @@ export const failedBuilds = (jobs: BuildInfoWithJob[]): number => {
     .reduce((sum, current) => current.job.lastBuild && current.job.lastBuild.result === BuildResult.Failure ? sum + 1 : sum, 0)
 }
 
+export const capitalize = (string: string) => {
+  if (string.length === 0) {
+    return string
+  }
+
+  return string[0].toUpperCase() + string.substring(1)
+}
 
 export const getUIName = (name: string): string => {
   return name.replace('-', ' ')
@@ -33,13 +40,4 @@ export const getUIName = (name: string): string => {
     .map((part) => capitalize(part))
     .join(' ')
     .trim()
-}
-
-///
-export const capitalize = (string: string) => {
-  if (string.length == 0) {
-    return string
-  }
-
-  return string[0].toUpperCase() + string.substring(1)
 }

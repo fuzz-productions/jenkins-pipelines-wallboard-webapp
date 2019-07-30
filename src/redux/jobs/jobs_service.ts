@@ -3,6 +3,21 @@ import { FolderJob } from '../../model'
 
 export class JobService {
 
+  static requestConfig() {
+    const username = process.env.REACT_APP_USERNAME
+    const password = process.env.REACT_APP_PASSWORD
+    if (!!username && !!password) {
+      return {
+        auth: {
+          username: username || '',
+          password: password || '',
+        },
+      }
+    } else {
+      return {}
+    }
+  }
+
   changeSetPath = (name: string = 'changeSet'): string =>
     `${name}%5Bitems%5Bmsg,date%5D%5D`
 
@@ -17,13 +32,15 @@ export class JobService {
   jobActionsPath = (): string => 'actions%5BobjectDisplayName,objectUrl%5D'
 
   buildsPath = (name: string = 'builds'): string =>
-    `${name}%5Bnumber,description,${this.actionsPath()},${this.culpritsPath()},url,building,duration,estimatedDuration,result,${this.changeSetPath()},${this.changeSetPath('changeSets')},timestamp,displayName%5D`
+    `${name}%5Bnumber,description,${this.actionsPath()},${this.culpritsPath()},url,building,duration,estimatedDuration,` +
+    `result,${this.changeSetPath()},${this.changeSetPath('changeSets')},timestamp,displayName%5D`
 
   jobParamsPath = (): string =>
     'nextBuildNumber,inQueue,name,url,description,displayName,buildable'
 
   newJobsParamsPath = (): string =>
-    `displayName,name,url,jobs%5B${this.jobParamsPath()},jobs%5B${this.jobActionsPath()},name,displayName,url,buildable,${this.buildsPath('lastBuild')}%5D%5D`
+    `displayName,name,url,jobs%5B${this.jobParamsPath()},jobs%5B${this.jobActionsPath()},name,` +
+    `displayName,url,buildable,${this.buildsPath('lastBuild')}%5D%5D`
 
 
   /**
@@ -57,19 +74,4 @@ export class JobService {
     return jobs.data.jobs || []
   }
 
-  static requestConfig() {
-    const username = process.env.REACT_APP_USERNAME
-    const password = process.env.REACT_APP_PASSWORD
-    if (!!username && !!password) {
-      return {
-        auth: {
-          username: username || '',
-          password: password || '',
-        },
-      }
-    } else {
-      return {}
-    }
-  }
 }
-

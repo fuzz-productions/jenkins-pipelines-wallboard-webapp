@@ -1,8 +1,8 @@
 import React from 'react'
-import { BranchEventCause } from '../../model'
+import { BranchEventCause } from '../model'
 import { ArrowRightAlt, PlayArrow, Replay } from '@material-ui/icons'
 import { Chip } from '@material-ui/core'
-import PullRequestIcon from '../../icons/PullRequestIcon'
+import PullRequestIcon from '../icons/PullRequestIcon'
 
 interface Props {
   cause: BranchEventCause

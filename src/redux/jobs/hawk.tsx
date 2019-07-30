@@ -6,7 +6,7 @@ import { State } from '../reducers'
 import { selectSelectedFolder } from '../organizations/selectors'
 import { selectJobFilter } from './job.state.selectors'
 
-export type JobsProps = {
+export interface JobsProps {
   loadJobs: Function
   selectJobFilter: (name: string) => void
   organizationFolder: string

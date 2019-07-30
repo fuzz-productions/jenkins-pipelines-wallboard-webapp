@@ -1,7 +1,6 @@
 import { LoadingModel } from '../loading.model'
 import { FolderJob } from '../../model'
 import { State } from '../reducers'
-import { selectOrgModel } from '../organizations/selectors'
 import { Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import React from 'react'
@@ -9,7 +8,7 @@ import { LoadProjects, SelectProjectFilter, SelectTempOrganizationSetting } from
 import { MenuOption } from '../../components/MenuWithOptions'
 import { selectProjectsModel, selectSelectedOrg, selectSelectedProjectFilter } from './selectors'
 
-export type SettingsProps = {
+export interface SettingsProps {
   projectsModel: LoadingModel<Array<FolderJob>>
   currentOrg?: MenuOption
   currentProject?: MenuOption
