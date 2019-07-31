@@ -118,14 +118,15 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
             </StyledAppColumnSmall>
             <StyledAppColumn
               style={{ flex: 3 }}>
-              <StyledAppHeaderContainer>
+              {failedBuildCount > 0 && <StyledAppHeaderContainer>
                 <Error color='primary'
                        fontSize='large' />
                 <StyledAppHeaderText variant='h2'
                                      component='h2'>Attention Zone
-                  <b>{failedBuildCount > 0 && ` - ${failedBuildCount} Build${failedBuildCount > 1 ? 's' : ''} Need${failedBuildCount === 1 ? 's' : ''} Attention`}</b>
+                  <b>{` - ${failedBuildCount} Build${failedBuildCount > 1 ? 's' : ''} Need${failedBuildCount === 1 ? 's' : ''} Attention`}
+                  </b>
                 </StyledAppHeaderText>
-              </StyledAppHeaderContainer>
+              </StyledAppHeaderContainer>}
               <BuildList isStream={false} />
             </StyledAppColumn>
           </StyledAppColumnContainer>
