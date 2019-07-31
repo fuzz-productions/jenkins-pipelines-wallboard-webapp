@@ -121,9 +121,9 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
               <StyledAppHeaderContainer>
                 <Error color='primary'
                        fontSize='large' />
-                <StyledAppHeaderText variant='h4'
-                                     component='h4'>Attention Zone
-                  {failedBuildCount > 0 && ` - ${failedBuildCount} Build${failedBuildCount > 1 ? 's' : ''} Need Attention`}
+                <StyledAppHeaderText variant='h2'
+                                     component='h2'>Attention Zone
+                  <b>{failedBuildCount > 0 && ` - ${failedBuildCount} Build${failedBuildCount > 1 ? 's' : ''} Need${failedBuildCount === 1 ? 's' : ''} Attention`}</b>
                 </StyledAppHeaderText>
               </StyledAppHeaderContainer>
               <BuildList isStream={false} />
