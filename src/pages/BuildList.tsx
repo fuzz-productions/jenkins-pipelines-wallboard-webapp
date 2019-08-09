@@ -3,6 +3,7 @@ import { buildsHawk, BuildsProps } from '../redux/builds/hawk'
 import BuildItemTile from '../components/BuildItemTile'
 import { CircularProgress, GridList, Typography } from '@material-ui/core'
 import styled from 'styled-components'
+import { failureColor } from '../styles/colors'
 
 interface Props {
   isStream: boolean
@@ -19,7 +20,8 @@ const StyledBuildListLoadingContainer = styled.div`
 `
 
 const StyledTypography = styled(Typography)`
-  padding-right: 8px;
+  padding: 16px;
+  color: ${failureColor} !important;
 `
 
 const BuildList = ({ isStream, unsuccessfulBuildsList, mainBuildList, buildsModel }: BuildsProps & Props) => {
@@ -27,9 +29,9 @@ const BuildList = ({ isStream, unsuccessfulBuildsList, mainBuildList, buildsMode
   const isEmpty = list.length === 0
   return <>
     {buildsModel.isLoading && isEmpty && <StyledBuildListLoadingContainer>
+      <CircularProgress size={50} />
       <StyledTypography variant='h3'
                         component='p'>Loading Builds</StyledTypography>
-      <CircularProgress size={50} />
     </StyledBuildListLoadingContainer>}
     {isEmpty && !buildsModel.isLoading && <div>
       <Typography

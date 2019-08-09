@@ -23,9 +23,17 @@ export const stableBranches = (job: FolderJob): number => {
 /**
  * Returns failed builds count
  */
-export const failedBuilds = (jobs: BuildInfoWithJob[]): number => {
-  return (jobs || [])
+export const failedBuilds = (jobs: ReadonlyArray<BuildInfoWithJob>): number =>
+  jobs
     .reduce((sum, current) => current.job.lastBuild && current.job.lastBuild.result === BuildResult.Failure ? sum + 1 : sum, 0)
+
+export const failedProjectsCount = (jobs: ReadonlyArray<BuildInfoWithJob>): number => {
+  const map: Map<string, number> = new Map<string, number>()
+  jobs.forEach(({ parentJobName }) => {
+    const found = map.get(parentJobName)
+    map.set(parentJobName, (found || 0) + 1)
+  })
+  return map.size
 }
 
 export const capitalize = (string: string) => {

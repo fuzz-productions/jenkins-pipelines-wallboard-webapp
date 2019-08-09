@@ -8,7 +8,7 @@ import SettingsDialog from './SettingsDialog'
 import { JobConstants } from '../redux/jobs/constants'
 import { orgsHawk, OrgsProps } from '../redux/organizations/orgs.hawk'
 import { getOrgUIName } from '../model/organization_utils'
-import { failedBuilds, getUIName } from '../model/job_utils'
+import { failedBuilds, failedProjectsCount, getUIName } from '../model/job_utils'
 import { buildsHawk, BuildsProps } from '../redux/builds/hawk'
 import styled from 'styled-components'
 import { bgColor, failureColor } from '../styles/colors'
@@ -96,6 +96,7 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
   render() {
     const { jobFilter, unsuccessfulBuildsList } = this.props
     const failedBuildCount = failedBuilds(unsuccessfulBuildsList)
+    const projectFailedCount = failedProjectsCount(unsuccessfulBuildsList)
     return (
       <MuiThemeProvider theme={this.theme}>
         <StyledAppContainer>
@@ -123,7 +124,7 @@ class AppPage extends Component<JobsProps & OrgsProps & BuildsProps, State> {
                        fontSize='large' />
                 <StyledAppHeaderText variant='h2'
                                      component='h2'>Attention Zone
-                  <b>{` - ${failedBuildCount} Build${failedBuildCount > 1 ? 's' : ''} Need${failedBuildCount === 1 ? 's' : ''} Attention`}
+                  <b>{` - ${failedBuildCount} Build${failedBuildCount > 1 ? 's' : ''} are failing on ${projectFailedCount} project${projectFailedCount !== 1 ? 's' : ''}`}
                   </b>
                 </StyledAppHeaderText>
               </StyledAppHeaderContainer>}
