@@ -156,7 +156,7 @@ export const userFriendlyFromLatestTime = (build: BuildInfo) => {
   }
 }
 
-const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) => {
+const BranchStatusCell = ({ item, isStream, classes}: BranchStatusCellProps) => {
   const { buildInfo, job } = item
   const { result, building, displayName } = buildInfo
 
@@ -181,7 +181,7 @@ const BranchStatusCell = ({ item, isStream, classes }: BranchStatusCellProps) =>
         <StyledStatusInfoChunk
           style={{ flex: 1 }}>
           <StyledStatusJobName variant='h2'
-                               component='p'>{displayName} - {item.job.displayName}</StyledStatusJobName>
+                               component='p'>{displayName} {item.job.displayName}</StyledStatusJobName>
           {!building && <StyledStatusBuildTimeStamp
             color='textSecondary'>{userFriendlyFromLatestTime(buildInfo)}</StyledStatusBuildTimeStamp>}
           {building && <StyledStatusBuildTimeStamp

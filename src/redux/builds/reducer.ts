@@ -3,6 +3,7 @@ import { JobActions, JobActionTypes } from '../jobs/actions'
 import { LoadingModel } from '../loading.model'
 import { BuildActions, BuildActionTypes } from './actions'
 import { OrganizationActions, OrganizationActionTypes } from '../organizations/actions'
+import { jobIsRoot } from '../../model/job_utils'
 
 export interface BuildsState {
   mainBuildList: Array<BuildInfoWithJob>
@@ -53,6 +54,11 @@ export function buildsReducer(state: BuildsState = initialBuildState,
       const unsuccessfulBuildsList = actions.buildInfo.filter((job) => !buildInMainList(job.job, job.job.lastBuild!))
         .sort((a, b) => {
           if (a.buildInfo.result === BuildResult.Failure && b.buildInfo.result === BuildResult.Failure) {
+            if (jobIsRoot(a.job) && !jobIsRoot(b.job)) {
+              return -1
+            } else if (jobIsRoot(b.job) && !jobIsRoot(a.job)) {
+              return 1
+            }
             return b.buildInfo.timestamp - a.buildInfo.timestamp
           } else if (a.buildInfo.result === BuildResult.Failure) {
             return -1
